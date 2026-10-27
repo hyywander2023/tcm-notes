@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>温病学·十分钟入门</title>
+<style>
+  :root{
+    --ink:#241f1a; --ink2:#4a4238; --muted:#7d7468;
+    --paper:#f7f3ea; --card:#fffdf8; --line:#e0d7c6;
+    --red:#9c2c2c; --deep:#6d1c1c; --gold:#a8791f; --teal:#2f5d5a;
+    --wei:#c9a227; --qi:#c96a2b; --ying:#9c2c2c; --xue:#6b1f3a;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,serif;
+    font-size:17px; line-height:1.95; letter-spacing:.01em;
+    -webkit-font-smoothing:antialiased;
+  }
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;
+       background:linear-gradient(90deg,var(--gold),var(--red));z-index:99;transition:width .1s linear;}
+  .wrap{max-width:820px;margin:0 auto;padding:0 28px 90px;}
+
+  /* 封面 */
+  .cover{padding:88px 0 40px;border-bottom:1px solid var(--line);position:relative;}
+  .cover .eyebrow{font-size:13px;letter-spacing:.32em;color:var(--gold);margin-bottom:20px;}
+  .cover h1{font-size:44px;line-height:1.3;margin:0 0 6px;font-weight:600;letter-spacing:.04em;}
+  .cover h1 em{font-style:normal;color:var(--red);}
+  .cover .sub{font-size:16px;color:var(--muted);margin:14px 0 28px;}
+  .cover .how{
+    background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);
+    padding:16px 20px;font-size:15px;color:var(--ink2);line-height:1.85;
+  }
+  .cover .how b{color:var(--red);}
+
+  /* 目录 */
+  .toc{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 10px;}
+  .toc a{
+    font-size:13.5px;color:var(--ink2);text-decoration:none;border:1px solid var(--line);
+    background:var(--card);padding:5px 12px;border-radius:2px;letter-spacing:.02em;
+  }
+  .toc a:hover{border-color:var(--red);color:var(--red);}
+
+  section{padding:52px 0 8px;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .time{
+    display:inline-block;font-family:ui-monospace,Menlo,monospace;font-size:12px;
+    letter-spacing:.1em;color:#fff;background:var(--red);padding:3px 10px;border-radius:2px;
+    margin-bottom:14px;
+  }
+  h2{font-size:27px;margin:0 0 22px;font-weight:600;letter-spacing:.03em;line-height:1.5;}
+  h3{font-size:19px;margin:36px 0 12px;color:var(--deep);font-weight:600;}
+  p{margin:0 0 16px;color:var(--ink2);}
+  strong{color:var(--ink);font-weight:600;}
+  .key{color:var(--red);font-weight:600;}
+
+  .lead{font-size:18.5px;line-height:2;color:var(--ink);}
+  .lead b{color:var(--red);}
+
+  /* 引文 */
+  blockquote{
+    margin:22px 0;padding:16px 22px;background:var(--card);
+    border-left:3px solid var(--red);font-size:17px;color:var(--ink);
+    line-height:2.05;
+  }
+  blockquote cite{display:block;font-style:normal;font-size:13px;color:var(--muted);margin-top:8px;letter-spacing:.05em;}
+
+  /* 表格 */
+  table{width:100%;border-collapse:collapse;margin:22px 0;font-size:15px;line-height:1.8;}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;}
+  th{font-weight:600;color:var(--ink);background:#f1eadb;font-size:14px;letter-spacing:.04em;}
+  td:first-child{color:var(--ink);font-weight:600;white-space:nowrap;}
+  tbody tr:hover{background:#fbf7ee;}
+  .t-red{color:var(--red);}
+
+  /* 四层阶梯 */
+  .ladder{margin:26px 0 8px;}
+  .rung{
+    padding:18px 22px;margin-bottom:6px;background:var(--card);
+    border:1px solid var(--line);border-left:6px solid var(--c);
+  }
+  .rung .top{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;}
+  .rung .lv{font-size:21px;font-weight:600;color:var(--c);letter-spacing:.08em;}
+  .rung .pos{font-size:12.5px;color:#fff;background:var(--c);padding:1px 8px;border-radius:2px;}
+  .rung .txt{font-size:15px;color:var(--ink2);line-height:1.85;}
+  .rung .tx{font-size:14.5px;color:var(--muted);margin-top:4px;}
+  .rung .tx b{color:var(--c);font-weight:600;}
+
+  /* 三焦 */
+  .triad{display:grid;gap:12px;margin:24px 0;}
+  .tri{background:var(--card);border:1px solid var(--line);padding:16px 20px;position:relative;}
+  .tri .h{display:flex;align-items:baseline;gap:12px;margin-bottom:6px;}
+  .tri .t{font-size:19px;font-weight:600;color:var(--deep);}
+  .tri .org{font-size:13px;color:var(--muted);}
+  .tri .rule{font-size:16px;color:var(--red);font-weight:600;letter-spacing:.03em;}
+  .tri .d{font-size:15px;color:var(--ink2);line-height:1.85;margin-top:6px;}
+
+  /* 病种网格 */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:24px 0;}
+  .dz{background:var(--card);border:1px solid var(--line);padding:14px 16px;}
+  .dz .n{font-size:17.5px;font-weight:600;color:var(--ink);margin-bottom:2px;}
+  .dz .m{font-size:12.5px;color:var(--gold);letter-spacing:.06em;margin-bottom:6px;}
+  .dz .s{font-size:14.5px;color:var(--ink2);line-height:1.8;}
+  .dz .f{font-size:13.5px;color:var(--teal);margin-top:6px;}
+
+  /* 提示框 */
+  .tip{
+    background:#f6efe0;border:1px solid #e6d9c0;padding:14px 18px;margin:22px 0;
+    font-size:15px;color:var(--ink2);line-height:1.85;
+  }
+  .tip b{color:var(--red);}
+
+  /* 自测 */
+  details{background:var(--card);border:1px solid var(--line);padding:12px 18px;margin-bottom:10px;}
+  details[open]{border-left:3px solid var(--teal);}
+  summary{cursor:pointer;font-size:16px;color:var(--ink);font-weight:600;line-height:1.8;}
+  summary::marker{color:var(--teal);}
+  details .ans{font-size:15px;color:var(--ink2);line-height:1.9;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);}
+  details .ans b{color:var(--red);}
+
+  .end{margin-top:56px;padding:26px 0 0;border-top:1px solid var(--line);font-size:14.5px;color:var(--muted);line-height:1.9;}
+  .end a{color:var(--teal);}
+
+  @media (max-width:640px){
+    body{font-size:16px;}
+    .wrap{padding:0 18px 60px;}
+    .cover h1{font-size:32px;}
+    .grid{grid-template-columns:1fr;}
+    table{font-size:14px;}
+    th,td{padding:8px 8px;}
+  }
+  @media print{
+    #bar,.toc{display:none;}
+    body{background:#fff;font-size:11pt;}
+    section{page-break-inside:avoid;padding:20px 0 6px;}
+    details{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<div class="wrap">
+
+  <div class="cover">
+    <div class="eyebrow">中医四大经典之外·温病学</div>
+    <h1>温病学<em>十分钟</em>入门</h1>
+    <p class="sub">零基础 · 一条主线 · 走完能听懂术语</p>
+    <div class="how">
+      <b>怎么用这十分钟</b><br>
+      按下面的时间标记一段一段读，<b>不要回头</b>。这一段里遇到不认识的术语先跳过，读完整条线再回头看，效率差十倍。<br>
+      全文只讲三件事：<b>温病是什么</b>、<b>怎么分层定位</b>、<b>见到什么用什么方</b>。原著的原文、注文、医案，等这条骨架立起来再看，才看得进去。
+    </div>
+  </div>
+
+  <nav class="toc">
+    <a href="#s1">0–2′ 是什么</a>
+    <a href="#s2">2–4′ 卫气营血</a>
+    <a href="#s3">4–6′ 三焦</a>
+    <a href="#s4">6–7′ 九个病种</a>
+    <a href="#s5">7–8.5′ 治法与方</a>
+    <a href="#s6">8.5–9.5′ 背四句</a>
+    <a href="#s7">9.5–10′ 自测</a>
+  </nav>
+
+  <!-- 1 -->
+  <section id="s1">
+    <div class="time">00:00 — 02:00</div>
+    <h2>一、温病是什么</h2>
+
+    <p class="lead">一句话：<b>温病，是感受"温邪"引起的一类急性外感热病。</b>它不是某一种病，是<b>一大类</b>病的总称——包括风温、暑温、湿温、秋燥、温疫等十几种。</p>
+
+    <p>拆开这句话有三个关键词，缺一个就不算温病：</p>
+
+    <table>
+      <thead><tr><th>关键词</th><th>意思</th><th>为什么重要</th></tr></thead>
+      <tbody>
+        <tr><td>温邪</td><td>不是寒邪。包括风热、暑热、湿热、燥热、温毒、疠气</td><td>病因不同，治法就相反：寒邪要<b>温散</b>，温邪要<b>凉解</b></td></tr>
+        <tr><td>热象偏重</td><td>以发热为主症，且热势明显</td><td>决定清热是贯穿始终的主线</td></tr>
+        <tr><td>易化燥伤阴</td><td>热邪最耗津液，后期多见口干、舌干、抽搐</td><td>所以温病全程都要<b>顾护津液</b></td></tr>
+      </tbody>
+    </table>
+
+    <h3>和《伤寒论》怎么分？这是第一个坎</h3>
+
+    <p>你学过伤寒的话，这一张表就够了。它们是<b>并列</b>的两套外感病体系，不是谁包含谁：</p>
+
+    <table>
+      <thead><tr><th></th><th>伤寒</th><th>温病</th></tr></thead>
+      <tbody>
+        <tr><td>病因</td><td>寒邪</td><td>温邪</td></tr>
+        <tr><td>入侵途径</td><td>皮毛</td><td>口鼻</td></tr>
+        <tr><td>传变规律</td><td>六经</td><td>卫气营血 / 三焦</td></tr>
+        <tr><td>初起表现</td><td class="t-red">恶寒重、发热轻、无汗、口不渴、脉浮紧</td><td class="t-red">发热重、恶寒轻、口渴、脉浮数</td></tr>
+        <tr><td>初起治法</td><td>辛温解表（麻黄汤、桂枝汤）</td><td>辛凉解表（银翘散、桑菊饮）</td></tr>
+        <tr><td>最怕什么</td><td>伤阳</td><td>伤阴</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <b>一句话记住：</b>伤寒重在"护阳"，温病重在"保津"。所以伤寒后期常见"阳虚"，温病后期常见"阴虚风动"。
+    </div>
+
+    <p>这一段只要记住一件事：<strong>见到发热重、口渴、不怕冷或只怕一点点冷，就该想到温病，而不是桂枝汤。</strong>这是临床上最容易走错的第一步。</p>
+  </section>
+
+  <!-- 2 -->
+  <section id="s2">
+    <div class="time">02:00 — 04:00</div>
+    <h2>二、卫气营血：横着看，病有多深</h2>
+
+    <p>叶天士在《温热论》开篇写了一句总纲，这十个字是温病学的门牌号：</p>
+
+    <blockquote>
+      温邪上受，首先犯肺，逆传心包。
+      <cite>——叶天士《温热论》</cite>
+    </blockquote>
+
+    <p>翻译：温邪从口鼻进来，先打在肺（上焦、卫分）；如果没挡住，一般按顺序往里走；但如果一下跳过好几层直冲心包，就叫<b>"逆传"</b>——这是危候，见神昏谵语。</p>
+
+    <h3>四层阶梯</h3>
+
+    <div class="ladder">
+      <div class="rung" style="--c:var(--wei)">
+        <div class="top"><span class="lv">卫分</span><span class="pos">最浅 · 在表</span></div>
+        <div class="txt">发热，微恶风寒，头痛，口渴，咳嗽，咽喉痛，<b>舌边尖红，脉浮数</b>。</div>
+        <div class="tx">治法：<b>辛凉解表</b>　主方：银翘散、桑菊饮</div>
+      </div>
+      <div class="rung" style="--c:var(--qi)">
+        <div class="top"><span class="lv">气分</span><span class="pos">已入里 · 正邪交争最盛</span></div>
+        <div class="txt">壮热，<b>不恶寒反恶热</b>，大汗，大渴喜冷饮，<b>舌红苔黄，脉洪大</b>。若兼腹满便秘，是阳明腑实。</div>
+        <div class="tx">治法：<b>辛寒清气</b>（白虎汤）／<b>通腑泄热</b>（承气汤）</div>
+      </div>
+      <div class="rung" style="--c:var(--ying)">
+        <div class="top"><span class="lv">营分</span><span class="pos">深入 · 扰神</span></div>
+        <div class="txt"><b>身热夜甚</b>，口干但<b>不甚渴</b>（热蒸营阴上潮），心烦不寐，时有谵语，<b>斑疹隐隐，舌绛</b>，脉细数。</div>
+        <div class="tx">治法：<b>清营透热转气</b>　主方：清营汤</div>
+      </div>
+      <div class="rung" style="--c:var(--xue)">
+        <div class="top"><span class="lv">血分</span><span class="pos">最深 · 动血耗血</span></div>
+        <div class="txt">斑疹密布色深，<b>吐血、衄血、便血、尿血</b>，躁扰不安或神昏，<b>舌深绛</b>。</div>
+        <div class="tx">治法：<b>凉血散血</b>　主方：犀角地黄汤</div>
+      </div>
+    </div>
+
+    <p>为什么"身热夜甚"和"不甚渴"能定位到营分？因为热在营阴，夜间阳入于阴，热与阴争所以夜间加重；营阴被蒸腾上潮，所以口虽干却不想多喝。这两个症状是<b>营分证的指纹</b>，比舌绛还早出现。</p>
+
+    <h3>治法总纲，一句话管全程</h3>
+
+    <blockquote>
+      在卫汗之可也，到气才可清气，入营犹可透热转气，如犀角、玄参、羚羊角等物，入血就恐耗血动血，直须凉血散血，如生地、丹皮、阿胶、赤芍等物。
+      <cite>——叶天士《温热论》第六章（王孟英《温热经纬》卷三本）</cite>
+    </blockquote>
+
+    <div class="tip">
+      <b>一处版本差异，知道就行：</b>唐大烈本此句作"到气才<b>宜</b>清气；<b>乍入营分，犹可透热，仍转气分而解</b>"。通行教材所引"入营犹可透热转气"出自王孟英本。两本并存，不是错字——但你现在用的底本是唐本系统，读原文时会撞见，不必以为印错了。
+    </div>
+
+    <p>注意"<span class="key">才</span>可"和"<span class="key">犹</span>可"这两个字，全是分寸感：</p>
+    <ul style="color:var(--ink2);font-size:16px;line-height:2;padding-left:22px;">
+      <li>邪还在卫，<b>不要</b>过早用寒凉清气药——会把邪冰伏在里，透不出来。</li>
+      <li>已到营分，<b>不要</b>一味用血分药——要留一条路让邪从营透气，即"透热转气"。</li>
+      <li>到了血分，就<b>必须</b>凉血散血，不能再指望透。</li>
+    </ul>
+
+    <div class="tip">
+      <b>顺传 vs 逆传：</b>卫→气→营→血，一层层往里，叫顺传，病势可测；肺卫之邪不经气分，直陷心包，叫<b>逆传心包</b>，来势凶，见高热、神昏、谵语、舌謇肢厥，要用"凉开三宝"。
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section id="s3">
+    <div class="time">04:00 — 06:00</div>
+    <h2>三、三焦：竖着看，病在哪个脏腑</h2>
+
+    <p>卫气营血回答"多深"，但没回答"在哪"。吴鞠通在《温病条辨》里补了这一维——把人体竖着切成三段：</p>
+
+    <div class="triad">
+      <div class="tri">
+        <div class="h"><span class="t">上焦</span><span class="org">肺 · 心包</span></div>
+        <div class="rule">治上焦如羽，非轻不举</div>
+        <div class="d">病位浅、药宜轻清上扬，用量要小、煎煮要短。肺——银翘散、桑菊饮；湿温初起——三仁汤（吴氏特意列在上焦篇，取"宣肺气以化湿、气化则湿化"之意）；逆传心包——清宫汤、安宫牛黄丸、至宝丹、紫雪丹。</div>
+      </div>
+      <div class="tri">
+        <div class="h"><span class="t">中焦</span><span class="org">脾 · 胃 · 大肠</span></div>
+        <div class="rule">治中焦如衡，非平不安</div>
+        <div class="d">要"摆平"——热者清之，实者下之，湿者化之，不能偏。阳明燥热用白虎汤，阳明腑实用承气汤，太阴湿热用加减正气散、薏苡竹叶散。</div>
+      </div>
+      <div class="tri">
+        <div class="h"><span class="t">下焦</span><span class="org">肝 · 肾</span></div>
+        <div class="rule">治下焦如权，非重不沉</div>
+        <div class="d">病位深、药宜重浊下沉，多用滋腻填精之品。阴虚风动用加减复脉汤、三甲复脉汤、大定风珠；阴虚火旺用黄连阿胶汤。</div>
+      </div>
+    </div>
+
+    <p>这三句口诀的比喻要讲透才记得住：<b>羽毛</b>轻，一吹就上去，所以上焦药要轻；<b>秤杆</b>要持平，所以中焦要调平衡；<b>秤砣</b>重，一放就沉底，所以下焦药要重。</p>
+
+    <h3>两套体系怎么一起用</h3>
+
+    <p>这是初学者最容易糊涂的地方。答案是：<strong>它们是一横一纵，不是两套互相打架的说法。</strong></p>
+
+    <table>
+      <thead><tr><th>层级</th><th>卫气营血（横）</th><th>三焦（纵）</th></tr></thead>
+      <tbody>
+        <tr><td>浅</td><td>卫分</td><td>上焦（肺）</td></tr>
+        <tr><td>中</td><td>气分</td><td>中焦（脾胃）</td></tr>
+        <tr><td>深</td><td>营分、血分</td><td>下焦（肝肾）</td></tr>
+      </tbody>
+    </table>
+
+    <p>临床写法通常是合起来的，比如"<b>邪在上焦卫分</b>"（银翘散证）、"<b>热入中焦阳明气分</b>"（白虎汤证）、"<b>热陷下焦肝肾，阴虚风动</b>"（大定风珠证）。两个坐标一定位，方子基本就出来了。</p>
+  </section>
+
+  <!-- 4 -->
+  <section id="s4">
+    <div class="time">06:00 — 07:00</div>
+    <h2>四、九个病种：给温病分类</h2>
+
+    <p>温病是一大类病，古人按<strong>季节 + 病邪性质</strong>给它起名字。九个名字看着吓人，其实一张表就够：</p>
+
+    <div class="grid">
+      <div class="dz"><div class="n">风温</div><div class="m">冬春 · 风热</div><div class="s">初起邪在肺卫，咳嗽、咽痛突出，最常见的一种。</div><div class="f">银翘散 / 桑菊饮</div></div>
+      <div class="dz"><div class="n">春温</div><div class="m">春季 · 伏寒化温</div><div class="s">初起即见里热，甚至有神昏、痉厥，不经过表证阶段。</div><div class="f">黄芩汤 / 清营汤</div></div>
+      <div class="dz"><div class="n">暑温</div><div class="m">夏至后 · 暑热</div><div class="s">传变最速，耗气伤津最重，暑必兼湿，易闭窍动风。</div><div class="f">白虎加人参汤</div></div>
+      <div class="dz"><div class="n">湿温</div><div class="m">长夏 · 湿热</div><div class="s">起病缓，身热不扬、午后热甚、胸痞苔腻、脉濡缓。</div><div class="f">三仁汤 / 甘露消毒丹</div></div>
+      <div class="dz"><div class="n">伏暑</div><div class="m">秋冬 · 暑湿内伏</div><div class="s">夏天受邪、秋冬发病，初起即有里热，寒热似疟。</div><div class="f">蒿芩清胆汤</div></div>
+      <div class="dz"><div class="n">秋燥</div><div class="m">秋季 · 燥热</div><div class="s">口鼻干燥、干咳少痰、皮肤干，分温燥与凉燥。</div><div class="f">桑杏汤 / 清燥救肺汤</div></div>
+      <div class="dz"><div class="n">温疫</div><div class="m">不分季 · 疠气</div><div class="s">传染性强，"非风非寒非暑非湿"，伏于膜原，憎寒壮热。</div><div class="f">达原饮</div></div>
+      <div class="dz"><div class="n">温毒</div><div class="m">冬春 · 温热毒邪</div><div class="s">局部肿毒为特征：大头瘟、痄腮、烂喉痧。</div><div class="f">普济消毒饮</div></div>
+      <div class="dz"><div class="n">温疟</div><div class="m">秋季 · 疟邪</div><div class="s">寒热定时而作，热多寒少。</div><div class="f">白虎加桂枝汤</div></div>
+    </div>
+
+    <div class="tip">
+      <b>不用死背，按季节分组就出来了：</b><br>
+      春 → 风温、春温（一个感而即发，一个伏而后发）<br>
+      夏 → 暑温、湿温（一个热重，一个湿重）<br>
+      秋 → 秋燥、伏暑、温疟<br>
+      四季皆有 → 温疫、温毒
+    </div>
+
+    <p>只有<b>湿温</b>要多看两眼，因为它和别的温病路数完全不同：<strong>湿温三禁——禁汗、禁下、禁润。</strong>吴鞠通《温病条辨·上焦篇》湿温条的原话是"汗之则神昏耳聋，甚则目瞑不欲言，下之则洞泄，润之则病深不解"。湿邪黏滞，汗之则湿随汗出而阳气先伤，下之则脾阳更败，润之则湿更胶结。所以治湿温要靠<b>芳化、苦燥、淡渗</b>，把湿从小便引出去。</p>
+  </section>
+
+  <!-- 5 -->
+  <section id="s5">
+    <div class="time">07:00 — 08:30</div>
+    <h2>五、治法主线与五首必认方</h2>
+
+    <p>温病治法虽多，主线只有一条：<strong>清热 + 保津</strong>。其余都是这条主线在不同部位、不同阶段的变奏。</p>
+
+    <table>
+      <thead><tr><th>治法</th><th>针对</th><th>代表方</th></tr></thead>
+      <tbody>
+        <tr><td>辛凉解表</td><td>邪在卫分</td><td>银翘散、桑菊饮</td></tr>
+        <tr><td>辛寒清气</td><td>热在气分</td><td>白虎汤</td></tr>
+        <tr><td>通腑泄热</td><td>阳明腑实</td><td>承气汤（温病"下不厌早"）</td></tr>
+        <tr><td>清营透热</td><td>热入营分</td><td>清营汤</td></tr>
+        <tr><td>凉血散血</td><td>热入血分</td><td>犀角地黄汤</td></tr>
+        <tr><td>开窍息风</td><td>逆传心包 / 热盛动风</td><td>安宫牛黄丸、羚角钩藤汤</td></tr>
+        <tr><td>滋阴救液</td><td>后期阴伤</td><td>加减复脉汤、大定风珠</td></tr>
+        <tr><td>化湿清热</td><td>湿温</td><td>三仁汤</td></tr>
+      </tbody>
+    </table>
+
+    <h3>五首方，先认清"什么时候用"</h3>
+
+    <table>
+      <thead><tr><th>方</th><th>定位</th><th>一句话抓主症</th></tr></thead>
+      <tbody>
+        <tr><td>银翘散</td><td>卫分 · 辛凉平剂</td><td>发热、<b>微恶风寒</b>、咽痛口渴、咳嗽。银花、连翘为君，配荆芥穗、豆豉少许辛散，薄荷后下</td></tr>
+        <tr><td>桑菊饮</td><td>卫分 · 辛凉轻剂</td><td><b>但咳，身热不甚，口微渴</b>——咳嗽为主、热不重。桑叶、菊花、杏仁、桔梗</td></tr>
+        <tr><td>白虎汤</td><td>气分 · 辛凉重剂</td><td><b>大热、大汗、大渴、脉洪大</b>四大症。石膏、知母、甘草、粳米</td></tr>
+        <tr><td>清营汤</td><td>营分</td><td><b>身热夜甚、时有谵语、舌绛</b>。水牛角、生地、玄参、银花、连翘、竹叶心——"透热转气"就靠后三味</td></tr>
+        <tr><td>三仁汤</td><td>湿温初起</td><td><b>身热不扬、胸闷、苔腻</b>。杏仁（宣上）、白蔻仁（畅中）、薏苡仁（渗下），三焦分消</td></tr>
+      </tbody>
+    </table>
+
+    <p>吴鞠通有个很好用的分级，把前三首串成一条线：<strong>辛凉轻剂桑菊饮、辛凉平剂银翘散、辛凉重剂白虎汤。</strong>热越重，用药越"重"。这三首是温病入门的第一组，务必分清。</p>
+
+    <p>还有一句要记牢的治则，是<b>吴鞠通注《素问·热论》</b>时说的话，由王孟英收进《温热经纬·卷一》：<strong>"若留得一分津液，便有一分生理。"</strong>今人多引作"生机"，意思不差，但字面上确以"生理"为准。温病全程，清热是为了保津，攻下是为了存阴，滋阴更是直接保津——所有治法最后都指向这一句。</p>
+  </section>
+
+  <!-- 6 -->
+  <section id="s6">
+    <div class="time">08:30 — 09:30</div>
+    <h2>六、只有四句必须背原文</h2>
+
+    <p>其余的都可以慢慢看，这四句现在背下来，以后读任何一本温病书都会反复撞见：</p>
+
+    <blockquote>
+      温邪上受，首先犯肺，逆传心包。<cite>叶天士《温热论》——全书总纲</cite>
+    </blockquote>
+
+    <blockquote>
+      在卫汗之可也，到气才可清气，入营犹可透热转气，入血就恐耗血动血，直须凉血散血。<cite>叶天士《温热论》——四层治法</cite>
+    </blockquote>
+
+    <blockquote>
+      治上焦如羽，非轻不举；治中焦如衡，非平不安；治下焦如权，非重不沉。<cite>吴鞠通《温病条辨》——三焦用药法</cite>
+    </blockquote>
+
+    <blockquote>
+      若留得一分津液，便有一分生理，贵在留之得法耳。<cite>吴鞠通注，见王孟英《温热经纬·卷一》——温病第一原则（今多引作"一分生机"）</cite>
+    </blockquote>
+  </section>
+
+  <!-- 7 -->
+  <section id="s7">
+    <div class="time">09:30 — 10:00</div>
+    <h2>七、五道自测：答得出，就算入门了</h2>
+
+    <p style="color:var(--muted);font-size:15px;">先自己想，再点开。答不上来的，回到对应段落再看一遍就行。</p>
+
+    <details>
+      <summary>1. 温病初起和伤寒初起，最核心的一个鉴别点是什么？</summary>
+      <div class="ans"><b>口渴与否，以及恶寒的轻重。</b>温病初起发热重、恶寒轻、<b>口渴</b>、脉浮数；伤寒初起恶寒重、发热轻、<b>口不渴</b>、脉浮紧。前者用辛凉，后者用辛温，一步走错后面全错。</div>
+    </details>
+
+    <details>
+      <summary>2. "逆传心包"是从哪一层直接跳到哪一层？为什么会危险？</summary>
+      <div class="ans">从<b>肺卫</b>不经气分，直接内陷<b>心包</b>。跳过了气分这个正邪交争、可以一战缓冲的阶段，所以起病急、变化快，表现为高热、神昏谵语、舌謇肢厥，须立即用凉开三宝（安宫牛黄丸、至宝丹、紫雪丹）清心开窍。</div>
+    </details>
+
+    <details>
+      <summary>3. 湿温为什么"禁汗、禁下、禁润"？</summary>
+      <div class="ans">湿为阴邪、其性黏滞。误汗则阳气先伤而湿不除，湿邪上蒙则神昏耳聋；误下则脾阳受损，湿邪下注而洞泄不止；误润则滋腻助湿，湿与热胶结更难解。正确出路是<b>芳化、苦燥、淡渗</b>，使湿从小便而去。</div>
+    </details>
+
+    <details>
+      <summary>4. 三仁汤的"三仁"是哪三味？各管什么？</summary>
+      <div class="ans"><b>杏仁</b>——苦温，宣利肺气，开上焦；<b>白蔻仁</b>——芳香，畅中焦脾胃；<b>薏苡仁</b>——甘淡，渗利下焦湿邪。三味分居上中下三焦，叫"<b>三焦分消</b>"，这是治湿的核心思路。</div>
+    </details>
+
+    <details>
+      <summary>5. "入营犹可透热转气"，在清营汤里具体靠哪几味药实现？</summary>
+      <div class="ans">靠<b>银花、连翘、竹叶心</b>。清营汤以水牛角、生地、玄参、麦冬清营养阴为底，但妙在佐这三味轻清透达之品，把深入营分的邪热重新引导到气分而解，避免一上来就用血分药把邪"堵死"在里。这就是"透热转气"的方剂学体现。</div>
+    </details>
+
+    <div class="tip" style="margin-top:30px;">
+      <b>十分钟之后做什么：</b>先读《温热论》原文——全书只有五千字、十二章，是这套体系的源头，一个下午能通读。等《温热论》读顺了，再进《温病条辨》的三焦篇，那时你已经有坐标系了，不会再被 266 条条文淹没。
+    </div>
+  </section>
+
+  <div class="end">
+    本讲义配套于本机温病知识库 <b>D:\中医\温病</b>：<br>
+    · 原文底本：<code>01_原始资料\</code>（9 部书，按卷切分，UTF-8）<br>
+    · 体系卡：<code>02_知识卡片\辨证体系\卫气营血辨证总纲.md</code><br>
+    · 方剂卡：<code>02_知识卡片\方剂\</code>（银翘散、桑菊饮、白虎汤、清营汤、清宫汤）<br>
+    · 典籍导读：<code>00_知识库入口\温病知识库总览.md</code>
+    <br><br>
+    文中引文均据库内底本核过原字；凡两本文字有出入者（如"透热转气"句、"生理/生机"），已在正文标注版本，未作径改。
+    <br><br>
+    下一讲 → <a href="温病学·十分钟入门·第二讲.html" style="color:#2f5d5a;">第二讲·辨证的坑</a>（恶风寒、煎法即定位、白虎四禁、湿温似伤寒）
+  </div>
+
+</div>
+
+<script>
+  var bar = document.getElementById('bar');
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h * 100) : 0) + '%';
+  });
+</script>
+</body>
+</html>

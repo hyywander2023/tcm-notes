@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>温病学·十分钟入门 · 第四讲</title>
+<style>
+  :root{
+    --ink:#241f1a; --ink2:#4a4238; --muted:#7d7468;
+    --paper:#f7f3ea; --card:#fffdf8; --line:#e0d7c6;
+    --red:#9c2c2c; --deep:#6d1c1c; --gold:#a8791f; --teal:#2f5d5a;
+    --qi:#c96a2b; --xue:#6b1f3a;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,serif;
+    font-size:17px; line-height:1.95; letter-spacing:.01em;
+    -webkit-font-smoothing:antialiased;
+  }
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;
+       background:linear-gradient(90deg,var(--xue),var(--gold));z-index:99;transition:width .1s linear;}
+  .wrap{max-width:820px;margin:0 auto;padding:0 28px 90px;}
+
+  .cover{padding:80px 0 36px;border-bottom:1px solid var(--line);}
+  .cover .eyebrow{font-size:13px;letter-spacing:.32em;color:var(--xue);margin-bottom:20px;}
+  .cover h1{font-size:42px;line-height:1.32;margin:0 0 6px;font-weight:600;letter-spacing:.04em;}
+  .cover h1 em{font-style:normal;color:var(--red);}
+  .cover .sub{font-size:16px;color:var(--muted);margin:14px 0 24px;}
+
+  .series{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--muted);margin-bottom:22px;flex-wrap:wrap;}
+  .series .dot{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+    border:1px solid var(--line);background:var(--card);font-family:ui-monospace,monospace;font-size:12px;}
+  .series .dot.on{background:var(--red);color:#fff;border-color:var(--red);}
+  .series .dot.done{background:#e9e2d3;color:var(--muted);}
+  .series a{color:var(--teal);text-decoration:none;border-bottom:1px dotted var(--teal);}
+
+  .review{background:#eef4f2;border:1px solid #cfe0db;border-left:3px solid var(--teal);padding:16px 20px;margin:0 0 20px;}
+  .review .h{font-size:13px;letter-spacing:.2em;color:var(--teal);margin-bottom:10px;}
+  .review ol{margin:0;padding-left:22px;font-size:15.5px;color:var(--ink2);line-height:1.95;}
+  .review b{color:var(--ink);}
+
+  .q{background:var(--card);border:1px solid var(--line);padding:16px 20px;margin:0 0 12px;}
+  .q .h{font-size:13px;letter-spacing:.2em;color:var(--gold);margin-bottom:10px;}
+  .q ol{margin:0;padding-left:22px;font-size:15.5px;line-height:2;color:var(--ink2);}
+  .q b{color:var(--ink);}
+
+  .toc{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 10px;}
+  .toc a{font-size:13.5px;color:var(--ink2);text-decoration:none;border:1px solid var(--line);
+    background:var(--card);padding:5px 12px;border-radius:2px;}
+  .toc a:hover{border-color:var(--red);color:var(--red);}
+
+  section{padding:52px 0 8px;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .time{display:inline-block;font-family:ui-monospace,Menlo,monospace;font-size:12px;
+    letter-spacing:.1em;color:#fff;background:var(--red);padding:3px 10px;border-radius:2px;margin-bottom:14px;}
+  h2{font-size:27px;margin:0 0 22px;font-weight:600;letter-spacing:.03em;line-height:1.5;}
+  h3{font-size:19px;margin:34px 0 12px;color:var(--deep);font-weight:600;}
+  p{margin:0 0 16px;color:var(--ink2);}
+  strong{color:var(--ink);font-weight:600;}
+  .key{color:var(--red);font-weight:600;}
+
+  blockquote{margin:20px 0;padding:15px 22px;background:var(--card);
+    border-left:3px solid var(--red);font-size:16.5px;color:var(--ink);line-height:2.05;}
+  blockquote cite{display:block;font-style:normal;font-size:13px;color:var(--muted);margin-top:8px;letter-spacing:.04em;}
+
+  /* 案文块 */
+  .case{background:#fbf8f1;border:1px solid #e6dcc8;padding:0;margin:22px 0;position:relative;}
+  .case .tag{background:var(--xue);color:#fff;font-size:12.5px;letter-spacing:.12em;
+    padding:4px 12px;display:inline-block;margin:0 0 0 -1px;}
+  .case .body{padding:14px 22px 18px;font-size:16.5px;line-height:2.1;color:var(--ink);}
+  .case .body em{font-style:normal;background:linear-gradient(transparent 62%,#f2ddb4 62%);}
+
+  table{width:100%;border-collapse:collapse;margin:20px 0;font-size:15px;line-height:1.8;}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;}
+  th{font-weight:600;color:var(--ink);background:#f1eadb;font-size:14px;letter-spacing:.04em;}
+  td:first-child{color:var(--ink);font-weight:600;white-space:nowrap;}
+  tbody tr:hover{background:#fbf7ee;}
+  .no{color:var(--red);font-weight:600;}
+
+  .tip{background:#f6efe0;border:1px solid #e6d9c0;padding:14px 18px;margin:22px 0;
+    font-size:15px;color:var(--ink2);line-height:1.85;}
+  .tip b{color:var(--red);}
+
+  .steps{counter-reset:s;margin:22px 0;}
+  .steps .st{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:12px 0;border-bottom:1px dashed var(--line);}
+  .steps .st:before{counter-increment:s;content:counter(s);font-family:ui-monospace,monospace;
+    font-size:13px;color:#fff;background:var(--teal);width:24px;height:24px;border-radius:50%;
+    display:grid;place-items:center;margin-top:4px;}
+  .steps .st .t{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:2px;}
+  .steps .st .d{font-size:14.5px;color:var(--ink2);line-height:1.8;}
+
+  details{background:var(--card);border:1px solid var(--line);padding:12px 18px;margin-bottom:10px;}
+  details[open]{border-left:3px solid var(--teal);}
+  summary{cursor:pointer;font-size:16px;color:var(--ink);font-weight:600;line-height:1.8;}
+  summary::marker{color:var(--teal);}
+  details .ans{font-size:15px;color:var(--ink2);line-height:1.9;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);}
+  details .ans b{color:var(--red);}
+
+  .next{background:#f2f0ea;border:1px dashed var(--line);padding:16px 20px;margin:24px 0;
+    font-size:15px;color:var(--ink2);line-height:1.9;}
+  .next b{color:var(--teal);}
+
+  .end{margin-top:52px;padding:24px 0 0;border-top:1px solid var(--line);
+    font-size:14.5px;color:var(--muted);line-height:1.9;}
+  .end a{color:var(--teal);}
+
+  @media (max-width:640px){
+    body{font-size:16px;}
+    .wrap{padding:0 18px 60px;}
+    .cover h1{font-size:31px;}
+    table{font-size:13.5px;}
+    th,td{padding:8px 7px;}
+  }
+  @media print{#bar,.toc{display:none;} body{background:#fff;font-size:10.5pt;}
+    section{page-break-inside:avoid;padding:18px 0 6px;} details{page-break-inside:avoid;}
+    .case{page-break-inside:avoid;}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<div class="wrap">
+
+  <div class="cover">
+    <div class="eyebrow">温病学 · 十分钟入门 · 第四讲</div>
+    <h1>看一个医生<em>怎么想</em></h1>
+    <p class="sub">两则真实医案，同一个人、同一个病、两种走法</p>
+
+    <div class="series">
+      <span class="dot done">1</span><span>地图</span>
+      <span style="color:var(--line)">›</span>
+      <span class="dot done">2</span><span>辨证的坑</span>
+      <span style="color:var(--line)">›</span>
+      <span class="dot done">3</span><span>中焦下焦</span>
+      <span style="color:var(--line)">›</span>
+      <span class="dot on">4</span><span>读医案</span>
+    </div>
+
+    <div class="review">
+      <div class="h">前三讲，用一句话各自收住</div>
+      <ol>
+        <li>第一讲：卫气营血看深浅，三焦看部位，主线清热保津。</li>
+        <li>第二讲：恶风寒否不掉温病；煎法即定位；白虎四禁；湿温似伤寒。</li>
+        <li>第三讲：清与下靠脉分；拉稀反用泻药；阴虚风动用血肉有情之品。</li>
+      </ol>
+    </div>
+
+    <div class="q">
+      <div class="h">今天不学新知识，只练一件事</div>
+      <ol>
+        <li>拿到一则原始医案，<b>怎么一步步读出医生的判断</b>。</li>
+        <li>两则几乎一样的病，结果一个治气分、一个治血分——<b>分界在哪</b>。</li>
+        <li>最后给你一则短案，<b>你自己判断</b>，再看答案。</li>
+      </ol>
+    </div>
+  </div>
+
+  <nav class="toc">
+    <a href="#s1">0–1.5′ 读案五步</a>
+    <a href="#s2">1.5–5.5′ 案一·气分</a>
+    <a href="#s3">5.5–7.5′ 案二·血分</a>
+    <a href="#s4">7.5–8.5′ 两案对读</a>
+    <a href="#s5">8.5–10′ 你来判断</a>
+  </nav>
+
+  <!-- 1 -->
+  <section id="s1">
+    <div class="time">00:00 — 01:30</div>
+    <h2>一、读案五步：先给一把尺子</h2>
+
+    <p>医案不是故事，是<b>决策记录</b>。读案最大的误区是看"他开了什么方"，真正要看的是"<span class="key">他在哪一步改变了判断，为什么</span>"。</p>
+
+    <p>以后你读任何一则温病案，按这五步走，不会乱：</p>
+
+    <div class="steps">
+      <div class="st"><div><div class="t">先看底子</div><div class="d">病人是谁、什么季节、平素什么体质。这一步决定"他能不能承受常规治法"。</div></div></div>
+      <div class="st"><div><div class="t">找误治</div><div class="d">前医做了什么？错在方向（寒热搞反）还是火候（太过、太早）？</div></div></div>
+      <div class="st"><div><div class="t">定层次</div><div class="d">用前三讲的坐标系：卫、气、营、血，上焦、中焦、下焦。</div></div></div>
+      <div class="st"><div><div class="t">抓反常</div><div class="d">案里一定有一两个"看着像 A、其实是 B"的症状或脉象，那才是全案的眼。</div></div></div>
+      <div class="st"><div><div class="t">看转方</div><div class="d">为什么换方？换了哪一味？加一味、去一味，往往就是全部的心思所在。</div></div></div>
+    </div>
+
+    <p>今天用张路玉的两则冬温案练这五步。选它有个好处：<strong>张路玉自己在案里写了诊断结论</strong>——"此热伤手太阴气分也""此热伤手太阴血分也"。等于作者自带答案，我们只需要看懂他凭什么这么定。</p>
+  </section>
+
+  <!-- 2 -->
+  <section id="s2">
+    <div class="time">01:30 — 05:30</div>
+    <h2>二、案一：一个"看着像寒"的热证</h2>
+
+    <div class="case">
+      <div class="tag">案一 · 清·张路玉治验</div>
+      <div class="body">
+        徐君育，素禀阴虚多火，且有脾约便血证，十月间患冬温，发热咽痛。里医用麻黄杏仁半夏枳橘之属，遂喘逆倚息不得卧，声飒如哑，头面赤热，手足逆冷，右手寸关虚大微数，此热伤手太阴气分也。与葳蕤、甘草等药不应，为制猪肤汤一瓯，令隔汤顿热，不时挑服，三日声清，终剂而痛如失。
+      </div>
+    </div>
+
+    <h3>第一步：底子</h3>
+    <p><b>"素禀阴虚多火，且有脾约便血证"</b>——阴本来就不够，还长期有便血。这种人最怕两样：<strong>温燥</strong>（再耗阴）和<strong>辛散</strong>（再耗气）。十月得冬温，是温病，不是伤寒。</p>
+
+    <h3>第二步：误治</h3>
+    <p>前医用<b>麻黄、杏仁、半夏、枳、橘</b>。这五味放在一起是什么？麻黄辛温发汗，半夏、枳、橘温燥破气降逆。对一个阴虚多火的人，等于<b>在快要干涸的锅里再加一把火，还把锅盖掀开</b>。方向没错到"相反"，但火候全错——把温病当伤寒表证治了。</p>
+
+    <h3>第三步：定层次</h3>
+    <p>误治后的症状：<b>喘逆倚息不得卧</b>（肺气上逆）、<b>声飒如哑</b>（燥伤肺津，声道失润）、<b>头面赤热</b>（虚火上浮）、<b>手足逆冷</b>。</p>
+
+    <p>张路玉看的是<b>右手寸关</b>——右寸候肺，右关候脾胃。"虚大微数"：大而无力是阴不敛阳，微数是还有热。<strong>病位定在肺，性质是燥与热，所以叫"热伤手太阴气分"。</strong></p>
+
+    <h3>第四步：抓那两个反常</h3>
+
+    <table>
+      <thead><tr><th>看到的</th><th>容易误判为</th><th>实际是</th></tr></thead>
+      <tbody>
+        <tr><td class="no">手足逆冷</td><td>寒证、阳虚，该温</td><td>热郁于内、阴液不能布达四末。旁边有"头面赤热"顶着，寒热方向一目了然</td></tr>
+        <tr><td class="no">脉虚大</td><td>气虚，该补</td><td>大而<b>无力</b>是阴不敛阳；"微数"说明还有热。补气就锁死了</td></tr>
+      </tbody>
+    </table>
+
+    <p>"逆冷"这一条，《伤寒论》早有原则：<strong>"厥深者热亦深，厥微者热亦微"</strong>（第 335 条，你伤寒库里就有）。四肢越冷，有时恰恰说明热闭得越深。这正是第二讲"恶风寒否不掉温病"的同一个道理换了个样子。</p>
+
+    <h3>第五步：看转方——从葳蕤到猪肤</h3>
+
+    <p>张路玉先给<b>葳蕤（玉竹）、甘草</b>，甘润生津，方向对，但<b>不应</b>。为什么不应？药力太薄——声哑到这个程度，是肺肾之燥已经连成一片，单靠草木之品的甘润，润不到位。</p>
+
+    <p>于是改<b>猪肤汤</b>：猪肤一斤、白蜜一升、白粉（米粉）五合。猪皮刮得薄如纸，和白蜜、米粉一起熬香，分六次温服。</p>
+
+    <blockquote>
+      肾应彘而肺主肤。肾液下泄，不能上蒸于肺，致络燥而为咽痛者，又非甘草所能治矣。当以猪肤润肺肾之燥……俾猪肤比类而致津液从肾上入肺中，循喉咙，复从肺出络心，注胸中，而上中下燥邪解矣。
+      <cite>——王晋三语，见《温热经纬》卷五</cite>
+    </blockquote>
+
+    <p>这段话把"为什么用猪皮"讲透了：<strong>用同类之物，把津液从下往上带</strong>。听起来像取象比类，但和第三讲大定风珠用阿胶、鸡子黄是同一个逻辑——<b>燥到极处，草木润不动，得用血肉有情之品</b>。只不过这里是轻证版，所以用猪皮而不是阿胶。</p>
+
+    <p>张路玉自己有一句极精炼的对举，值得记住：</p>
+
+    <blockquote>
+      阳微者，用附子温经；阴竭者，用猪肤润燥。
+      <cite>——张路玉语，见《温热经纬》卷二</cite>
+    </blockquote>
+  </section>
+
+  <!-- 3 -->
+  <section id="s3">
+    <div class="time">05:30 — 07:30</div>
+    <h2>三、案二：同一个病，为什么这次走血分</h2>
+
+    <div class="case">
+      <div class="tag">案二 · 清·张路玉治验</div>
+      <div class="body">
+        又治郑墨林室，素有便红，怀妊七月，正肺气养胎时而患冬温，咳嗽咽痛如刺，下血如崩，脉较平时反觉小弱而数，此热伤手太阴血分也。与黄连阿胶汤二剂，血止后，去黄连加葳蕤、桔梗、人中黄四剂而安。
+      </div>
+    </div>
+
+    <p>同一位医生、同一个季节、同一种病（冬温）、病人底子也类似（都素有毒热下血）。但这一次，张路玉写的是<b>"热伤手太阴血分"</b>。差别只在两处：</p>
+
+    <p><b>其一，出血。</b>"下血如崩"——这是第一讲就划定的界碑：<span class="key">营分只是斑疹隐隐，血分才见出血</span>。有出血，层次立刻从气分跨到血分。</p>
+
+    <p><b>其二，脉"较平时反觉小弱而数"。</b>注意"较平时"三个字——不是绝对的小弱，是<b>比她自己平时还小</b>。血一下子流失太多，脉道失充，所以变小；"数"说明热还在。<strong>这又是一个"脉小不等于虚"的变奏</strong>，和第三讲"脉体反小而实"是一路货色。</p>
+
+    <p>用药换成<b>黄连阿胶汤</b>：黄连、黄芩清热，阿胶养血止血，芍药、鸡子黄护阴。<strong>清与养同时进行</strong>——因为此时既要止血，又不能一味收涩把热关在里面。</p>
+
+    <p>血止之后，张路玉做了一件很讲究的事：<b>去掉黄连</b>，加葳蕤、桔梗、人中黄。为什么去黄连？血已止，苦寒再下去就伤阴、伤胎了。为什么加这三味？葳蕤润燥（案一用过的思路回来了），桔梗利咽，人中黄清余热。<span class="key">同一个医生，前后两案用的药互相呼应——这就是"法"而不是"方"。</span></p>
+
+    <div class="tip">
+      <b>顺带一个知识点：</b>"怀妊七月，正肺气养胎时"——古人按月份分经养胎，七月属手太阴肺经。所以张路玉特意点出这一句：病在肺，又正赶上肺养胎，两重相干，故用药格外忌峻。这也是"先看底子"那一步的价值。
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section id="s4">
+    <div class="time">07:30 — 08:30</div>
+    <h2>四、两案对读：差别只有一格</h2>
+
+    <table>
+      <thead><tr><th></th><th>案一（徐君育）</th><th>案二（郑墨林室）</th></tr></thead>
+      <tbody>
+        <tr><td>底子</td><td>阴虚多火、脾约便血</td><td>素便红、怀妊七月</td></tr>
+        <tr><td>层次</td><td class="no">气分</td><td class="no">血分</td></tr>
+        <tr><td>标志症</td><td>喘逆、声哑、逆冷</td><td><b>下血如崩</b>、咽痛如刺</td></tr>
+        <tr><td>脉</td><td>虚大微数</td><td>较平时反小弱而数</td></tr>
+        <tr><td>治法</td><td>甘润救燥</td><td>清热养血</td></tr>
+        <tr><td>主方</td><td>猪肤汤</td><td>黄连阿胶汤</td></tr>
+        <tr><td>收尾</td><td>三日声清，终剂痛失</td><td>血止去黄连，加润养四剂</td></tr>
+      </tbody>
+    </table>
+
+    <p>把两栏叠起来看，你会发现<strong>所有的差别只来自一个症状：出血</strong>。底子几乎一样、季节一样、病一样、误治方向一样，就因为"下血如崩"四个字，方子从猪肤汤变成黄连阿胶汤。</p>
+
+    <p>这就是第一讲那张四层阶梯真正的用处——<b>它不是一个背诵表，是一个换方开关</b>。你判断出层次变了，方子自然就得变；反过来，如果你只记"冬温用银翘散"，这两案你一个都接不住。</p>
+  </section>
+
+  <!-- 5 -->
+  <section id="s5">
+    <div class="time">08:30 — 10:00</div>
+    <h2>五、你来判断：吴鞠通的一则短案</h2>
+
+    <p>下面这则案，我先不给答案。你按五步走一遍，特别想清楚第四个问题。</p>
+
+    <div class="case">
+      <div class="tag">练习案 · 清·吴鞠通治验</div>
+      <div class="body">
+        脉不浮而细数，大渴引饮大汗，里不足之热病也。用玉女煎法：知母四钱，生石膏一两，桑叶三钱，麦冬、细生地各五钱，粳米一撮，甘草三钱。<br>
+        复诊：昨用玉女煎法，诸症俱减。平素有消渴病，用玉女煎，大便稀溏，加牡蛎，一面护阴，一面收下：牡蛎一两，生石膏五钱，炒知母二钱，麦冬、大生地各五钱，炙甘草三钱，粳米一撮。终与益胃汤调理而愈。
+      </div>
+    </div>
+
+    <p><b>问题：</b>大渴、大汗、脉数——按第三讲，这几乎就是白虎汤的四大症。吴鞠通为什么<b>不用白虎汤</b>，而用玉女煎？</p>
+
+    <details>
+      <summary>点开看答案</summary>
+      <div class="ans">
+        三处信号否掉了白虎汤：<br>
+        ① <b>脉不洪大，而是"细数"</b>——白虎汤要脉洪大有力；细是阴液不足，数是热。第三讲的白虎四禁里，"脉浮弦而细者不可与"正是这一路：<b>阴伤之人，纯用辛寒清气会再耗其阴</b>。<br>
+        ② <b>"平素有消渴病"</b>——底子就是阴虚燥热，不是一时之气分实热。<br>
+        ③ 吴鞠通自己的定性：<b>"里不足之热病也"</b>——一句话点明虚实夹杂，不是纯实证。<br><br>
+        所以用<b>玉女煎法</b>：石膏、知母清胃热，生地、麦冬滋肾阴，两路同时走。这正是第一讲提到的"气血两燔用玉女煎"的思路——<b>热要清，阴也要补，不能只顾一头</b>。<br><br>
+        复诊更见心思：大便稀溏，不去清热，也不去滋腻，而是<b>加牡蛎</b>——"一面护阴，一面收下"。牡蛎咸寒质重，既潜阳护阴，又收涩止泻，一味药干两件事。
+      </div>
+    </details>
+
+    <h3>四讲到此收束</h3>
+
+    <table>
+      <thead><tr><th>讲</th><th>一句话</th></tr></thead>
+      <tbody>
+        <tr><td>第一讲</td><td>给你坐标系：卫气营血 × 三焦，主线清热保津</td></tr>
+        <tr><td>第二讲</td><td>给你四个坑：恶风寒、煎法、白虎四禁、湿温似伤寒</td></tr>
+        <tr><td>第三讲</td><td>补完中下焦：清下靠脉分、热结旁流、阴虚风动</td></tr>
+        <tr><td>第四讲</td><td>把前面全用一遍：层次一变，方子就得换</td></tr>
+      </tbody>
+    </table>
+
+    <div class="next">
+      <b>接下来该做什么：从讲义回到原著。</b><br>
+      四讲只是脚手架。真正的下一步是读《温热论》全文——五千字、十二章，一下午能通读一遍。读的时候你会发现，第一讲到第四讲讲的东西，都在那十二章里；只是原著的每一句都比讲义更硬、更不留余地。<br>
+      读完《温热论》，再进《温病条辨》上焦篇。<b>不要跳过去直接啃条辨</b>，266 条没有坐标系会直接淹没你。
+    </div>
+  </section>
+
+  <div class="end">
+    <b>本讲原文出处（均据库内底本核字）：</b><br>
+    · 张路玉两则冬温案 —— <code>01_原始资料\重订广温热论\重订广温热论·第二卷.md</code>（"温热本证医案"）<br>
+    · 猪肤汤方及王晋三方解 —— <code>01_原始资料\温热经纬\温热经纬·卷五.md</code>；张路玉"阳微者用附子"语见 <code>温热经纬·卷二.md</code><br>
+    · 吴鞠通玉女煎案 —— <code>01_原始资料\重订广温热论\重订广温热论·第二卷.md</code><br>
+    · "厥深者热亦深" —— 《伤寒论》第 335 条，<code>D:\中医\伤寒\01_原始资料\伤寒论\457-伤寒论.md</code><br><br>
+    案文照录底本，"声飒如哑""较平时反觉小弱"等字句未作改动。
+    <br><br>
+    ← 上一讲：<a href="温病学·十分钟入门·第三讲.html">第三讲·中焦与下焦</a>　|　<a href="温病学·十分钟入门·第二讲.html">第二讲</a>　|　<a href="温病学·十分钟入门.html">第一讲</a>
+  </div>
+
+</div>
+
+<script>
+  var bar = document.getElementById('bar');
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h * 100) : 0) + '%';
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>温病学·十分钟入门 · 第二讲</title>
+<style>
+  :root{
+    --ink:#241f1a; --ink2:#4a4238; --muted:#7d7468;
+    --paper:#f7f3ea; --card:#fffdf8; --line:#e0d7c6;
+    --red:#9c2c2c; --deep:#6d1c1c; --gold:#a8791f; --teal:#2f5d5a;
+    --wei:#c9a227; --qi:#c96a2b; --ying:#9c2c2c; --xue:#6b1f3a;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,serif;
+    font-size:17px; line-height:1.95; letter-spacing:.01em;
+    -webkit-font-smoothing:antialiased;
+  }
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;
+       background:linear-gradient(90deg,var(--teal),var(--red));z-index:99;transition:width .1s linear;}
+  .wrap{max-width:820px;margin:0 auto;padding:0 28px 90px;}
+
+  .cover{padding:80px 0 36px;border-bottom:1px solid var(--line);}
+  .cover .eyebrow{font-size:13px;letter-spacing:.32em;color:var(--teal);margin-bottom:20px;}
+  .cover h1{font-size:42px;line-height:1.32;margin:0 0 6px;font-weight:600;letter-spacing:.04em;}
+  .cover h1 em{font-style:normal;color:var(--red);}
+  .cover .sub{font-size:16px;color:var(--muted);margin:14px 0 24px;}
+
+  .series{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--muted);margin-bottom:22px;flex-wrap:wrap;}
+  .series .dot{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+    border:1px solid var(--line);background:var(--card);font-family:ui-monospace,monospace;font-size:12px;}
+  .series .dot.on{background:var(--red);color:#fff;border-color:var(--red);}
+  .series a{color:var(--teal);text-decoration:none;border-bottom:1px dotted var(--teal);}
+
+  /* 昨日回顾 */
+  .review{background:#eef4f2;border:1px solid #cfe0db;border-left:3px solid var(--teal);padding:16px 20px;margin:0 0 20px;}
+  .review .h{font-size:13px;letter-spacing:.2em;color:var(--teal);margin-bottom:10px;}
+  .review ol{margin:0;padding-left:22px;font-size:15.5px;color:var(--ink2);line-height:1.95;}
+  .review b{color:var(--ink);}
+
+  /* 今日三问 */
+  .q{background:var(--card);border:1px solid var(--line);padding:16px 20px;margin:0 0 12px;}
+  .q .h{font-size:13px;letter-spacing:.2em;color:var(--gold);margin-bottom:8px;}
+  .q ol{margin:0;padding-left:22px;font-size:15.5px;line-height:1.95;color:var(--ink2);}
+
+  .toc{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 10px;}
+  .toc a{font-size:13.5px;color:var(--ink2);text-decoration:none;border:1px solid var(--line);
+    background:var(--card);padding:5px 12px;border-radius:2px;}
+  .toc a:hover{border-color:var(--red);color:var(--red);}
+
+  section{padding:52px 0 8px;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .time{display:inline-block;font-family:ui-monospace,Menlo,monospace;font-size:12px;
+    letter-spacing:.1em;color:#fff;background:var(--red);padding:3px 10px;border-radius:2px;margin-bottom:14px;}
+  h2{font-size:27px;margin:0 0 22px;font-weight:600;letter-spacing:.03em;line-height:1.5;}
+  h3{font-size:19px;margin:34px 0 12px;color:var(--deep);font-weight:600;}
+  p{margin:0 0 16px;color:var(--ink2);}
+  strong{color:var(--ink);font-weight:600;}
+  .key{color:var(--red);font-weight:600;}
+
+  blockquote{margin:20px 0;padding:15px 22px;background:var(--card);
+    border-left:3px solid var(--red);font-size:16.5px;color:var(--ink);line-height:2.05;}
+  blockquote cite{display:block;font-style:normal;font-size:13px;color:var(--muted);margin-top:8px;letter-spacing:.04em;}
+
+  table{width:100%;border-collapse:collapse;margin:20px 0;font-size:15px;line-height:1.8;}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;}
+  th{font-weight:600;color:var(--ink);background:#f1eadb;font-size:14px;letter-spacing:.04em;}
+  td:first-child{color:var(--ink);font-weight:600;white-space:nowrap;}
+  tbody tr:hover{background:#fbf7ee;}
+  .no{color:var(--red);font-weight:600;}
+
+  .tip{background:#f6efe0;border:1px solid #e6d9c0;padding:14px 18px;margin:22px 0;
+    font-size:15px;color:var(--ink2);line-height:1.85;}
+  .tip b{color:var(--red);}
+
+  .fix{background:#fdf3e6;border:1px solid #edd6b4;border-left:3px solid var(--gold);
+    padding:16px 20px;margin:24px 0;font-size:15.5px;color:var(--ink2);line-height:1.9;}
+  .fix .h{font-size:13px;letter-spacing:.18em;color:var(--gold);margin-bottom:8px;}
+  .fix b{color:var(--red);}
+
+  details{background:var(--card);border:1px solid var(--line);padding:12px 18px;margin-bottom:10px;}
+  details[open]{border-left:3px solid var(--teal);}
+  summary{cursor:pointer;font-size:16px;color:var(--ink);font-weight:600;line-height:1.8;}
+  summary::marker{color:var(--teal);}
+  details .ans{font-size:15px;color:var(--ink2);line-height:1.9;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);}
+  details .ans b{color:var(--red);}
+
+  .next{background:#f2f0ea;border:1px dashed var(--line);padding:16px 20px;margin:24px 0;
+    font-size:15px;color:var(--ink2);line-height:1.9;}
+  .next b{color:var(--teal);}
+
+  .end{margin-top:52px;padding:24px 0 0;border-top:1px solid var(--line);
+    font-size:14.5px;color:var(--muted);line-height:1.9;}
+  .end a{color:var(--teal);}
+
+  @media (max-width:640px){
+    body{font-size:16px;}
+    .wrap{padding:0 18px 60px;}
+    .cover h1{font-size:31px;}
+    table{font-size:14px;}
+    th,td{padding:8px 8px;}
+  }
+  @media print{#bar,.toc{display:none;} body{background:#fff;font-size:11pt;}
+    section{page-break-inside:avoid;padding:20px 0 6px;} details{page-break-inside:avoid;}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<div class="wrap">
+
+  <div class="cover">
+    <div class="eyebrow">温病学 · 十分钟入门 · 第二讲</div>
+    <h1>今天讲<em>四个坑</em></h1>
+    <p class="sub">地图昨天给过了，今天讲路况</p>
+
+    <div class="series">
+      <span class="dot">1</span><span>要点</span>
+      <span style="color:var(--line)">›</span>
+      <span class="dot on">2</span><span>辨证的坑</span>
+      <span style="color:var(--line)">›</span>
+      <span class="dot">3</span><span>中焦下焦（下次）</span>
+    </div>
+
+    <div class="review">
+      <div class="h">昨日三点，三十秒回忆</div>
+      <ol>
+        <li><b>卫气营血</b>看"病有多深"（横切四层），<b>三焦</b>看"病在哪个脏腑"（竖切三段），两个坐标合起来定位。</li>
+        <li>治法主线只有一条：<b>清热 + 保津</b>；尺度全在"才可""犹可"这几个字上。</li>
+        <li>五首方按层次排：桑菊饮（轻）→ 银翘散（平）→ 白虎汤（重）→ 清营汤 → 三仁汤（另一条路）。</li>
+      </ol>
+    </div>
+
+    <div class="q">
+      <div class="h">今天要解决的三件事</div>
+      <ol>
+        <li>温病初起<b>也会怕冷</b>。那昨天"不怕冷才是温病"这句，是不是说错了？</li>
+        <li>昨天只学了白虎汤<b>什么时候用</b>，今天学它<b>什么时候绝对不能用</b>。</li>
+        <li>湿温昨天只有一句"三禁"，今天讲它为什么<b>长得像伤寒</b>。</li>
+      </ol>
+    </div>
+  </div>
+
+  <nav class="toc">
+    <a href="#s1">1–3.5′ 恶风寒的坑</a>
+    <a href="#s2">3.5–6′ 煎法即定位</a>
+    <a href="#s3">6–7.5′ 白虎四禁</a>
+    <a href="#s4">7.5–9′ 湿温似伤寒</a>
+    <a href="#s5">9–10′ 收束与自测</a>
+  </nav>
+
+  <!-- 1 -->
+  <section id="s1">
+    <div class="time">01:00 — 03:30</div>
+    <h2>一、卫分最大的坑：温病也会恶风寒</h2>
+
+    <p>昨天让你记的是"发热重、口渴、不怕冷 → 想到温病"。这句话在考试里够用，在书上会立刻翻车。因为《温病条辨》第一条正条之后紧接着第四条，吴鞠通自己写的是：</p>
+
+    <blockquote>
+      太阴风温、温热、温疫、冬温，初起恶风寒者，桂枝汤主之；但热不恶寒而渴者，辛凉平剂银翘散主之。
+      <cite>——《温病条辨·卷一·上焦篇》第四条</cite>
+    </blockquote>
+
+    <p>温病初起恶风寒，<b>用桂枝汤</b>。这不是后人误读，是吴鞠通的原话。他还专门解释了自己为什么敢这么写：</p>
+
+    <blockquote>
+      盖温病忌汗，最喜解肌……虽曰温病，既恶风寒，明是温自内发，风寒从外搏，成内热外寒之证，故仍旧用桂枝辛温解肌法。
+      <cite>——同上，第四条自注</cite>
+    </blockquote>
+
+    <p>他的逻辑是：<strong>"温自内发 + 风寒外搏 = 内热外寒"</strong>，外有寒束，所以得先用辛温把外寒解开。听起来成立，但后世几乎一致反对。</p>
+
+    <h3>反对的声音，比原文更值得记</h3>
+
+    <p>民国王德宣在《温病正宗》里逐条驳《温病条辨》，抓住这一条批得最狠：</p>
+
+    <blockquote>
+      夫鞠通既宗叶氏，当详考叶氏论案以立言……在泾先生云：温病伏寒变热，少阴之精已被劫夺，虽有新旧合邪，不得更用桂枝汤助热，而绝其本也，岂吴氏皆未之闻乎？
+      <cite>——《温病正宗·下编·正宗辑要》</cite>
+    </blockquote>
+
+    <p>意思是：你既自称继承叶天士，怎么不看看叶天士怎么治的？叶氏遇此一律<b>辛凉轻剂</b>、葱豉汤，从不回头用桂枝。温病本就伏寒化热、阴精已伤，再用桂枝等于<b>助热绝本</b>。</p>
+
+    <div class="fix">
+      <div class="h">对昨天的修正</div>
+      昨天说"不怕冷才想到温病"，是<b>简化过头</b>了。准确的说法是：<br>
+      ① 温病初起<b>可以</b>有恶风寒，只是程度轻（"微恶风寒"），不像伤寒那样"恶寒重、虽覆被向火不解"；<br>
+      ② 真正的定盘星不是恶寒，是<b>口渴、舌边尖红、脉浮数</b>这三样；<br>
+      ③ 见到"恶寒 + 发热 + 口渴 + 脉数"，仍按温病论治，用辛凉，<b>不要</b>因为一个"恶寒"就倒回桂枝汤。
+    </div>
+
+    <p>顺便说，这条争议本身说明一件事：<strong>温病学说不是一套闭合的公理系统，是一批医家两百多年互相驳出来的。</strong>你读任何一条，都该问一句"谁不同意他"。</p>
+  </section>
+
+  <!-- 2 -->
+  <section id="s2">
+    <div class="time">03:30 — 06:00</div>
+    <h2>二、银翘散的煎法：一句话落实"治上焦如羽"</h2>
+
+    <p>昨天那句"治上焦如羽，非轻不举"，听着像文学修辞。其实它有非常具体的操作含义，全写在银翘散的方后注里：</p>
+
+    <blockquote>
+      上杵为散，每服六钱，鲜苇根汤煎，香气大出，即取服，勿过煎。肺药取轻清，过煎则味浓而入中焦矣。病重者，约二时一服，日三服，夜一服。
+      <cite>——《温病条辨·卷一·上焦篇》银翘散方后注</cite>
+    </blockquote>
+
+    <p>短短几句，藏了三个几乎所有人都忽略的细节：</p>
+
+    <table>
+      <thead><tr><th>原文</th><th>含义</th><th>常见误解</th></tr></thead>
+      <tbody>
+        <tr><td>上杵为散<br>每服六钱</td><td>做成<b>散剂</b>，一次只服六钱（约 18 g），不是把一剂全煮了喝</td><td>把整包药一锅煎、一次喝完</td></tr>
+        <tr><td>鲜苇根汤煎</td><td>用<b>鲜芦根汤</b>当溶媒，不是清水。芦根清热生津，兼作引经</td><td>直接自来水下锅</td></tr>
+        <tr><td>香气大出，即取服<br>勿过煎</td><td>薄荷、荆芥穗、豆豉全靠挥发油取效，<b>煎久了药效就散了</b></td><td>和其他药一起煮二十分钟</td></tr>
+        <tr><td>二时一服<br>日三夜一</td><td>重症<b>每两小时一次</b>，白天三次夜里一次——<b>频服</b></td><td>一天两次，早晚饭后</td></tr>
+      </tbody>
+    </table>
+
+    <p>为什么这么讲究？吴鞠通自己给了答案：<strong>"肺药取轻清，过煎则味浓而入中焦矣。"</strong></p>
+
+    <p>这句话很妙——它把"煎法"和"病位"直接绑在了一起：<span class="key">同一张方子，煎得轻，药力停在上焦；煎得浓，药力就往下走到中焦去了。</span>上焦的病，药却跑到中焦，等于打偏了。这就是"如羽"的真意：不是药量小，是<strong>质地轻、气味薄、停留浅</strong>。</p>
+
+    <div class="tip">
+      <b>反过来记：</b>治中焦、下焦的药恰恰要<b>久煎浓煎</b>，取"味厚下行"。所以"煎多久"从来不是习惯问题，是定位问题。这一条比背十首方都有用。
+    </div>
+
+    <p>还有一个临床细节值得知道：吴氏说"病重者二时一服"。温病传变以时辰计，<strong>给药间隔本身就是治疗强度</strong>。一天两服对付不了半日一变的病。</p>
+  </section>
+
+  <!-- 3 -->
+  <section id="s3">
+    <div class="time">06:00 — 07:30</div>
+    <h2>三、白虎汤的"四禁"：四把反过来照的镜子</h2>
+
+    <p>昨天给了白虎汤的四大症：大热、大汗、大渴、脉洪大。但真正常用的知识是它的<strong>反面</strong>——什么时候碰都不能碰。吴鞠通把这条单独立为一则：</p>
+
+    <blockquote>
+      白虎本为达热出表，若其人脉浮弦而细者，不可与也；脉沉者，不可与也；不渴者，不可与也，汗不出者，不可与也；常须识此，勿令误也。
+      <cite>——《温病条辨·卷一·上焦篇》第九条</cite>
+    </blockquote>
+
+    <p>看着是四条孤立的禁忌，其实每一条都正对着"四大症"中的一项——<b>四禁就是四大的镜子</b>：</p>
+
+    <table>
+      <thead><tr><th>禁忌</th><th>反照哪一大症</th><th>为什么不能用</th></tr></thead>
+      <tbody>
+        <tr><td class="no">脉浮弦而细</td><td>脉洪大</td><td>浮＝邪仍在表，弦细＝阴分已伤。此时清气，会把表邪冰伏于里</td></tr>
+        <tr><td class="no">脉沉</td><td>脉洪大</td><td>沉实是<b>腑实</b>（该用承气，不是白虎）；沉细是阳衰。两头都不对</td></tr>
+        <tr><td class="no">不渴</td><td>大渴</td><td>热没伤津，说明热势未到气分高潮，或根本不是真热</td></tr>
+        <tr><td class="no">汗不出</td><td>大汗</td><td>热无外达之路。此时清热，热被关在里面，反成闭证</td></tr>
+      </tbody>
+    </table>
+
+    <p>四禁合起来其实只说了一件事：<strong>白虎汤的靶心是"热盛 + 津伤 + 有外达之势"，三者缺一不可。</strong>只热不渴，不是它；只渴无汗，也不是它。</p>
+
+    <p>吴鞠通在这条的注里写得很不客气，值得原样读一遍：</p>
+
+    <blockquote>
+      白虎剽悍，邪重非其力不举，用之得当，原有立竿见影之妙，若用之不当，祸不旋踵……甚至石膏用至斤余之多，应手而效者固多，应手而毙者亦复不少。
+      <cite>——同上，第九条自注</cite>
+    </blockquote>
+
+    <p>"应手而毙者亦复不少"——这不是吓人，是吴鞠通对自己见到的医疗事故的记录。石膏用一斤多，效的不少，死的也不少。<b>越是"好用"的方，越要知道它的边界。</b></p>
+  </section>
+
+  <!-- 4 -->
+  <section id="s4">
+    <div class="time">07:30 — 09:00</div>
+    <h2>四、湿温：一条长得像伤寒的温病</h2>
+
+    <p>昨天讲湿温只给了一句"三禁"。今天看原文，你就明白为什么要单独讲它——它的第一句症状，几乎是照着伤寒抄的：</p>
+
+    <blockquote>
+      头痛恶寒，身重疼痛，舌白不渴，脉弦细而濡，面色淡黄，胸闷不饥，午后身热，状若阴虚，病难速已，名曰湿温。
+      <cite>——《温病条辨·卷一·上焦篇》第四十三条</cite>
+    </blockquote>
+
+    <p>头痛、恶寒、身重疼痛、舌白、<b>口不渴</b>——这几样摆在一起，任何一个学过伤寒的人都会想开桂枝汤或麻黄汤。吴鞠通早知道会这样，他自己在同条注里挑明了：</p>
+
+    <blockquote>
+      头痛恶寒，身重疼痛，<b>有似伤寒，脉弦濡，则非伤寒矣</b>。
+      <cite>——同上，第四十三条自注</cite>
+    </blockquote>
+
+    <p><b>"有似伤寒"这四个字是吴鞠通自己写的。</b>而分辨的钥匙只有一把：<strong>脉</strong>。伤寒脉浮紧，湿温脉<b>弦细而濡</b>——濡就是软而浮、按下去没劲，湿邪的特征脉。</p>
+
+    <h3>三个抓手，认出湿温</h3>
+
+    <table>
+      <thead><tr><th>抓手</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>脉濡</td><td>软而无力，不紧不数。这一条最硬，直接否掉伤寒</td></tr>
+        <tr><td>胸闷不饥</td><td>原文说是"湿闭清阳道路"。湿阻中焦，所以不饿、脘痞</td></tr>
+        <tr><td>午后身热</td><td>湿为阴邪，旺于阴分，所以午后热甚——容易被误当成阴虚</td></tr>
+      </tbody>
+    </table>
+
+    <p>教材上常用的"<b>身热不扬</b>"（热被湿裹住，扪之烙手而肌肤不甚灼）是后世的提炼，九部原著里查不到这个词，意思则从"午后身热""状若阴虚"化出。</p>
+
+    <h3>为什么湿温不能用清热为主</h3>
+
+    <p>因为热裹在湿里。纯用寒凉，热未必清掉，湿反被凝住，愈治愈黏。所以策略是<b>先给湿找出路，湿一去，热就孤零零地挂在那里，自己就散了</b>——后世把这句话概括成"湿去热孤"（同样不是原文）。</p>
+
+    <p>三仁汤的配伍就是这个思路的标准答案：<strong>杏仁宣上焦肺气，白蔻仁畅中焦脾胃，薏苡仁渗下焦湿邪</strong>，再加滑石、通草、竹叶利尿，厚朴、半夏燥湿。上中下三路同时开闸，湿才有处可走。这也解释了一个昨天没讲清的问题：<b>三仁汤治湿温，吴鞠通为什么把它放在"上焦篇"？</b>因为肺主一身之气，气化则湿化——开上源，是给全身的水湿找出路。</p>
+  </section>
+
+  <!-- 5 -->
+  <section id="s5">
+    <div class="time">09:00 — 10:00</div>
+    <h2>五、收束：今天只带走三句</h2>
+
+    <p><b>一、恶风寒否不掉温病。</b>定盘星是口渴、舌边尖红、脉浮数。吴鞠通自己说温病初起可用桂枝汤，但叶天士一系坚决反对，今天通行做法是辛凉。</p>
+
+    <p><b>二、煎法即定位。</b>"过煎则味浓而入中焦"——上焦药宜轻、宜短、宜频服；中下焦药才需要久煎浓煎。</p>
+
+    <p><b>三、湿温先化湿，湿去热孤。</b>它长得像伤寒（头痛恶寒身重不渴），唯一的硬钥匙是脉濡，加上胸闷不饥、午后身热。</p>
+
+    <h3>三道自测（比昨天难一档）</h3>
+
+    <details>
+      <summary>1. 病人发热、微恶风寒、口不渴、身重疼痛、脉濡——一定是伤寒吗？</summary>
+      <div class="ans"><b>不一定，这更像是湿温初起。</b>伤寒与湿温在"恶寒、身重、不渴"上几乎重合，吴鞠通自己都承认"有似伤寒"。分辨靠脉：伤寒脉浮紧、按之有力；湿温脉弦细而<b>濡</b>、软而无力。再看两条旁证——胸闷不饥、午后热甚。这一题答对了，说明你已经不靠单一症状辨证了。</div>
+    </details>
+
+    <details>
+      <summary>2. 银翘散为什么强调"香气大出即取服"？如果煎了二十分钟会怎样？</summary>
+      <div class="ans">薄荷、荆芥穗、淡豆豉的有效成分是<b>挥发油</b>，久煎即随蒸汽散失，解表之力大减。更要紧的是吴鞠通那句"过煎则味浓而入中焦"——药力会<b>下沉到中焦</b>，本该停在上焦肺卫的药跑去了脾胃，等于打偏靶心。所以煎法不是小事，它决定药往哪一焦走。</div>
+    </details>
+
+    <details>
+      <summary>3. 白虎汤禁"汗不出者"，可病人高热无汗，不是更该赶紧清热吗？</summary>
+      <div class="ans">关键在"无汗"说明<b>热没有外达的通路</b>。此时若一味寒凉，热被压在里面出不来，容易转成闭证、逆传心包。正确做法是先辨无汗的成因：表闭的<b>先透表</b>（把门打开），津亏的<b>先养津</b>（给汗源），腑实的<b>先通下</b>（从大便找出路）。白虎汤的前提是"热有外越之势"，也就是<b>大汗</b>——汗出，才说明热正往外走，此时清气是顺势而为。</div>
+    </details>
+
+    <div class="next">
+      <b>第三讲（下次十分钟）：往下走——中焦与下焦。</b><br>
+      白虎还是承气，为什么同一组症状靠脉定夺；拉稀水为什么反用泻药；阴虚风动用阿胶、鸡子黄是什么道理；最后把三讲压成<b>一张纸的温病学</b>。<br>
+      （原计划一并讲的"医案读法"内容偏重，单独放到第四讲。）
+    </div>
+  </section>
+
+  <div class="end">
+    <b>本讲所用原文，全部据本机底本核字：</b><br>
+    · 《温病条辨·卷一·上焦篇》第四条、第九条、第四十三条 —— <code>01_原始资料\温病条辨\温病条辨·卷一·上焦篇.md</code><br>
+    · 《温病正宗·下编·正宗辑要》 —— <code>01_原始资料\温病正宗\温病正宗·下编·正宗辑要.md</code><br><br>
+    "湿去热孤""身热不扬"为后世概括语，原著无此词，文中已注明，未冒充原文。<br><br>
+    ← 返回第一讲：<a href="温病学·十分钟入门.html">温病学·十分钟入门</a>
+    <br>
+    下一讲 → <a href="温病学·十分钟入门·第三讲.html" style="color:#9c2c2c;">第三讲·中焦与下焦</a>
+  </div>
+
+</div>
+
+<script>
+  var bar = document.getElementById('bar');
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h * 100) : 0) + '%';
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>少阴病 · 单选题练习</title>
+<style>
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:#F6F4EF;
+    color:#23272E;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:840px;margin:0 auto;padding:0 20px 72px;}
+
+  header{
+    position:sticky;top:0;z-index:10;
+    background:rgba(246,244,239,.94);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid #E3DFD4;
+    margin-bottom:26px;
+  }
+  .head-inner{max-width:840px;margin:0 auto;padding:18px 20px 14px;}
+  .title-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  h1{font-size:20px;font-weight:600;margin:0;letter-spacing:.5px;}
+  .sub{font-size:12.5px;color:#7A7668;margin:4px 0 0;}
+  .meter{display:flex;align-items:center;gap:14px;margin-top:12px;}
+  .bar{flex:1;height:6px;background:#E6E1D5;border-radius:99px;overflow:hidden;}
+  .bar-fill{height:100%;width:0;background:#8C5B3F;border-radius:99px;transition:width .3s ease;}
+  .stat{font-size:12.5px;color:#5E5A4E;white-space:nowrap;font-variant-numeric:tabular-nums;}
+  .stat b{color:#23272E;font-weight:600;}
+
+  .q{
+    background:#FFFFFF;
+    border:1px solid #E7E2D7;
+    border-radius:14px;
+    padding:20px 22px 18px;
+    margin-bottom:16px;
+  }
+  .q-head{display:flex;gap:12px;align-items:flex-start;}
+  .q-no{
+    flex:none;width:30px;height:30px;border-radius:9px;
+    background:#F1ECE3;color:#8C5B3F;
+    font-size:12.5px;font-weight:600;
+    display:flex;align-items:center;justify-content:center;
+    margin-top:2px;font-variant-numeric:tabular-nums;
+  }
+  .q-stem{font-size:15px;margin:0;font-weight:500;flex:1;}
+  .q-src{font-size:12px;color:#9A9484;margin:6px 0 0;font-weight:400;}
+
+  .opts{margin:14px 0 0 42px;display:flex;flex-direction:column;gap:8px;}
+  .opt{
+    display:flex;align-items:flex-start;gap:10px;
+    width:100%;text-align:left;
+    background:#FBFAF7;
+    border:1px solid #E7E2D7;
+    border-radius:10px;
+    padding:10px 13px;
+    font-size:14px;color:#2E3238;
+    font-family:inherit;line-height:1.6;
+    cursor:pointer;
+    transition:background .15s,border-color .15s;
+  }
+  .opt:hover:not(:disabled){background:#F4F0E8;border-color:#D8D0BF;}
+  .opt:focus-visible{outline:2px solid #8C5B3F;outline-offset:2px;}
+  .opt:disabled{cursor:default;}
+  .key{
+    flex:none;width:20px;height:20px;border-radius:6px;
+    background:#F1ECE3;color:#8C5B3F;
+    font-size:11.5px;font-weight:600;
+    display:flex;align-items:center;justify-content:center;
+    margin-top:1px;
+  }
+  .opt.correct{background:#EAF4EE;border-color:#7FB79A;}
+  .opt.correct .key{background:#2E7D5B;color:#fff;}
+  .opt.wrong{background:#FBECEA;border-color:#DFA9A2;}
+  .opt.wrong .key{background:#B2473F;color:#fff;}
+
+  .explain{
+    margin:14px 0 0 42px;
+    background:#F8F5EE;
+    border-left:3px solid #C9A227;
+    border-radius:0 8px 8px 0;
+    padding:11px 14px;
+    font-size:13.2px;color:#4A4636;
+  }
+  .explain .tag{
+    display:inline-block;font-size:11px;font-weight:600;color:#8A6D14;
+    letter-spacing:1px;margin-right:8px;
+  }
+  .explain .quote{
+    font-family:"Songti SC","SimSun",Georgia,serif;
+    color:#2B2A24;
+  }
+  .explain[hidden]{display:none;}
+
+  .summary{
+    display:none;
+    background:#FFFFFF;border:1px solid #E7E2D7;border-radius:14px;
+    padding:22px;margin-top:24px;
+  }
+  .summary.show{display:block;}
+  .summary h2{font-size:16px;margin:0 0 6px;font-weight:600;}
+  .summary .score{font-size:30px;font-weight:600;color:#8C5B3F;font-variant-numeric:tabular-nums;}
+  .summary p{margin:6px 0 0;font-size:13.5px;color:#5E5A4E;}
+  .summary .hint{margin-top:10px;font-size:13px;color:#7A7464;}
+
+  .actions{margin-top:18px;display:flex;gap:10px;}
+  button.reset{
+    font-family:inherit;font-size:13.5px;
+    background:#8C5B3F;color:#fff;border:none;
+    border-radius:9px;padding:9px 18px;cursor:pointer;
+  }
+  button.reset:hover{background:#7A4E35;}
+  footer{margin-top:26px;font-size:12px;color:#9A9484;text-align:center;}
+</style>
+</head>
+<body>
+<header>
+  <div class="head-inner">
+    <div class="title-row">
+      <div>
+        <h1>少阴病 · 单选题练习</h1>
+        <p class="sub">依据《伤寒论》辨少阴病脉证并治（281–325 条）· 点击选项即时判定</p>
+      </div>
+    </div>
+    <div class="meter">
+      <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+      <div class="stat">已答 <b id="doneNum">0</b>/10 · 正确 <b id="rightNum">0</b></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div id="quiz"></div>
+
+  <div class="summary" id="summary">
+    <h2>做完啦</h2>
+    <div class="score"><span id="finalScore">0</span> <span style="font-size:14px;color:#7A7668;font-weight:400;">/ 10</span></div>
+    <p id="verdict"></p>
+    <p class="hint" id="hint"></p>
+    <div class="actions">
+      <button class="reset" id="resetBtn">重新开始</button>
+    </div>
+  </div>
+
+  <footer>底本：457-伤寒论 · 辨少阴病脉证并治</footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    stem: "《伤寒论》第 281 条提出少阴病的提纲，下列哪一项是少阴病的提纲证？",
+    options: [
+      "脉浮紧，发热恶寒",
+      "脉微细，但欲寐",
+      "脉沉迟，腹满而吐",
+      "脉弦细，口苦咽干"
+    ],
+    answer: 1,
+    explain: "281 条：「少阴之为病，脉微细，但欲寐也。」脉微主阳虚，脉细主阴血不足，一脉双关；但欲寐是精神极度衰惫、似睡非睡。此六字为全篇总纲。"
+  },
+  {
+    stem: "少阴病出现「小便色白」，其病机是什么？",
+    options: [
+      "下焦虚有寒，不能制水",
+      "湿热下注膀胱",
+      "水热互结，气化不利",
+      "阴虚内热，津液偏渗"
+    ],
+    answer: 0,
+    explain: "282 条：「小便白者，以下焦虚有寒，不能制水，故令色白也。」色白指澄澈清冷，是虚寒之征，与热化证的小便短赤正好相反，为辨寒化的重要眼目。"
+  },
+  {
+    stem: "少阴病，脉微，不可发汗，其原因是：",
+    options: [
+      "亡阳故也",
+      "津液内竭",
+      "表邪未解",
+      "里有燥实"
+    ],
+    answer: 0,
+    explain: "286 条：「少阴病，脉微，不可发汗，亡阳故也。阳已虚，尺脉弱涩者，复不可下之。」脉微已是阳虚之极，再汗则阳气随汗外脱。少阴病汗、下两禁，此为全书禁例最严处。"
+  },
+  {
+    stem: "少阴病，得之二三日以上，心中烦、不得卧者，治宜：",
+    options: ["栀子豉汤", "黄连阿胶汤", "猪苓汤", "真武汤"],
+    answer: 1,
+    explain: "303 条：「少阴病，得之二三日以上，心中烦、不得卧，黄连阿胶汤主之。」此为肾水亏于下、心火亢于上，属少阴热化证。黄连、黄芩清心火，阿胶、芍药、鸡子黄滋肾阴，即「泻南补北」。"
+  },
+  {
+    stem: "少阴病，下利清谷，里寒外热，手足厥逆，脉微欲绝，身反不恶寒，其人面色赤。治宜：",
+    options: ["四逆汤", "通脉四逆汤", "白通汤", "白通加猪胆汁汤"],
+    answer: 1,
+    explain: "317 条：「……通脉四逆汤主之。」阴寒内盛而虚阳被格于外，故「身反不恶寒、面色赤」属假热。方即四逆汤而重用干姜、用大附子；面色赤者加葱九茎以通阳。"
+  },
+  {
+    stem: "白通加猪胆汁汤中加入人尿、猪胆汁，其主要用意是：",
+    options: [
+      "增强温阳散寒之力",
+      "苦咸寒反佐，引阳药入阴以破格拒",
+      "滋阴清热以除烦躁",
+      "制约附子、干姜之燥烈"
+    ],
+    answer: 1,
+    explain: "315 条：服白通汤后「利不止，厥逆无脉，干呕，烦者」，是阴寒格拒热药。故加人尿五合、猪胆汁一合作反佐，取苦咸寒之性引阳药下行入阴，使药能受纳，属「甚者从之」之法。"
+  },
+  {
+    stem: "少阴病，身体痛，手足寒，骨节痛，脉沉者，治宜：",
+    options: ["麻黄汤", "桂枝新加汤", "附子汤", "真武汤"],
+    answer: 2,
+    explain: "305 条：「少阴病，身体痛，手足寒，骨节痛，脉沉者，附子汤主之。」此为阳虚而寒湿着于肌肉骨节。304 条更点出「口中和，其背恶寒」，可与阳明热盛之「背微恶寒、口燥渴」相鉴别。"
+  },
+  {
+    stem: "少阴病，二三日不已，至四五日，腹痛、小便不利、四肢沉重疼痛、自下利者，「此为有水气」，治宜：",
+    options: ["附子汤", "真武汤", "茯苓桂枝白术甘草汤", "五苓散"],
+    answer: 1,
+    explain: "316 条：「……此为有水气……真武汤主之。」少阴阳虚不能制水、水气泛滥。方用附子温阳，茯苓、白术、生姜健脾散水，芍药和营止痛。与附子汤药味相近，但真武汤有生姜无人参，功在利水；附子汤有人参无生姜，功在补虚止痛。"
+  },
+  {
+    stem: "少阴病，自利清水，色纯青，心下必痛，口干燥者，治宜：",
+    options: [
+      "桃花汤温涩固脱",
+      "白通汤破阴回阳",
+      "大承气汤急下存阴",
+      "四逆汤回阳救逆"
+    ],
+    answer: 2,
+    explain: "321 条：「少阴病，自利清水，色纯青，心下必痛，口干燥者，可下之，宜大承气汤。」此属少阴热化、燥屎内结之「热结旁流」，故下利清水而心下痛、口干燥。320、321、322 合称「少阴三急下」，皆用大承气汤急下存阴。"
+  },
+  {
+    stem: "白通加猪胆汁汤服后，「脉暴出者死，微续者生」，其机理是：",
+    options: [
+      "脉暴出为阳气骤复，主病愈",
+      "脉暴出为虚阳外脱，微续为阳气渐回",
+      "脉暴出为药力太过，微续为药力不足",
+      "二者皆属危候，只是程度不同"
+    ],
+    answer: 1,
+    explain: "315 条：「服汤，脉暴出者死；微续者生。」暴出是阴寒内盛、虚阳被药力逼而外脱，属回光返照，故死；微续是阳气徐徐来复、脉道渐充，故生。此与篇中「手足温者可治」「脉不至者死」同属辨生死之眼目。"
+  }
+];
+
+const LETTERS = ["A", "B", "C", "D"];
+const quizEl = document.getElementById("quiz");
+const barFill = document.getElementById("barFill");
+const doneNum = document.getElementById("doneNum");
+const rightNum = document.getElementById("rightNum");
+const summaryEl = document.getElementById("summary");
+
+let answered = 0;
+let correct = 0;
+
+function build() {
+  quizEl.innerHTML = "";
+  answered = 0;
+  correct = 0;
+  summaryEl.classList.remove("show");
+  updateMeter();
+
+  QUESTIONS.forEach(function (q, qi) {
+    const section = document.createElement("section");
+    section.className = "q";
+
+    const head = document.createElement("div");
+    head.className = "q-head";
+    const no = document.createElement("div");
+    no.className = "q-no";
+    no.textContent = String(qi + 1).padStart(2, "0");
+    const stem = document.createElement("p");
+    stem.className = "q-stem";
+    stem.textContent = q.stem;
+    head.appendChild(no);
+    head.appendChild(stem);
+    section.appendChild(head);
+
+    const opts = document.createElement("div");
+    opts.className = "opts";
+
+    q.options.forEach(function (text, oi) {
+      const btn = document.createElement("button");
+      btn.className = "opt";
+      btn.type = "button";
+
+      const key = document.createElement("span");
+      key.className = "key";
+      key.textContent = LETTERS[oi];
+
+      const label = document.createElement("span");
+      label.textContent = text;
+
+      btn.appendChild(key);
+      btn.appendChild(label);
+
+      btn.addEventListener("click", function () {
+        if (section.dataset.done === "1") return;
+        section.dataset.done = "1";
+
+        const buttons = opts.querySelectorAll(".opt");
+        buttons.forEach(function (b) { b.disabled = true; });
+
+        if (oi === q.answer) {
+          btn.classList.add("correct");
+          correct++;
+        } else {
+          btn.classList.add("wrong");
+          buttons[q.answer].classList.add("correct");
+        }
+
+        answered++;
+        updateMeter();
+        explainEl.hidden = false;
+        if (answered === QUESTIONS.length) showSummary();
+      });
+
+      opts.appendChild(btn);
+    });
+
+    section.appendChild(opts);
+
+    const explainEl = document.createElement("div");
+    explainEl.className = "explain";
+    explainEl.hidden = true;
+    explainEl.innerHTML = '<span class="tag">解析</span><span class="quote"></span>';
+    explainEl.querySelector(".quote").textContent = q.explain;
+    section.appendChild(explainEl);
+
+    quizEl.appendChild(section);
+  });
+}
+
+function updateMeter() {
+  barFill.style.width = (answered / QUESTIONS.length * 100) + "%";
+  doneNum.textContent = answered;
+  rightNum.textContent = correct;
+}
+
+function showSummary() {
+  document.getElementById("finalScore").textContent = correct;
+  const verdict = document.getElementById("verdict");
+  const hint = document.getElementById("hint");
+
+  if (correct >= 9) {
+    verdict.textContent = "少阴篇的条文很熟了，寒化、热化、兼变三条线都拎得清。";
+    hint.textContent = "下一步可以挑战多选与「原文填空」，或者做寒化七方的方证互辨。";
+  } else if (correct >= 7) {
+    verdict.textContent = "主干已经立住，个别细节还需要再夯一遍。";
+    hint.textContent = "重点回看 315（格拒与反佐）、316（真武汤）、305（附子汤）这几条的鉴别点。";
+  } else if (correct >= 5) {
+    verdict.textContent = "大体方向对，但寒化证内部的层次还容易串。";
+    hint.textContent = "建议先过一遍「脉沉 → 脉微 → 脉微欲绝 → 无脉」这把尺子，再重做一次。";
+  } else {
+    verdict.textContent = "少阴篇还没串起来，不着急，先抓提纲和寒热两化。";
+    hint.textContent = "回看 281 提纲、282 小便色白、303 热化、317 格阳这四条，骨架就有了。";
+  }
+
+  summaryEl.classList.add("show");
+  summaryEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+document.getElementById("resetBtn").addEventListener("click", function () {
+  build();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+build();
+</script>
+</body>
+</html>

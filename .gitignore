@@ -1,0 +1,19 @@
+# ---- Obsidian 运行时状态（每次开关 Obsidian 都会变，提交进去全是噪音）----
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+**/.obsidian/workspace.json
+**/.obsidian/workspace-mobile.json
+**/.obsidian/cache
+
+# ---- 回收站 ----
+.trash/
+**/.trash/
+
+# ---- 未命名的画布草稿 ----
+未命名*.canvas
+
+# ---- 系统垃圾文件 ----
+.DS_Store
+Thumbs.db
+desktop.ini
