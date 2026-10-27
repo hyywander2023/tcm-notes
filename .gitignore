@@ -17,3 +17,8 @@
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# ---- 插件程序本体（可重新下载，类似不把 Obsidian.exe 入库）----
+# 只排除大体积的程序文件，插件的配置 data.json 与 manifest.json 仍然入库
+.obsidian/plugins/*/main.js
+.obsidian/plugins/*/styles.css
