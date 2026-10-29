@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>温热论 · 前五章四十题自测</title>
+<style>
+  :root{
+    --bg:#f7f4ee;
+    --card:#fffdfa;
+    --ink:#2a2520;
+    --ink2:#6b6358;
+    --ink3:#9a9184;
+    --line:#e3dcd0;
+    --accent:#7a5a3a;
+    --accent-soft:#f0e7da;
+    --ok:#2f7d5b;
+    --ok-bg:#edf7f1;
+    --bad:#b0453a;
+    --bad-bg:#fbeeec;
+    --shadow:0 1px 2px rgba(60,45,30,.05),0 12px 32px -18px rgba(60,45,30,.35);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    font-size:16px;line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:780px;margin:0 auto;padding:44px 24px 80px}
+
+  header{margin-bottom:26px}
+  .brand{
+    font-size:12.5px;letter-spacing:.18em;color:var(--ink3);
+    text-transform:uppercase;margin-bottom:10px;
+  }
+  h1{
+    font-family:"Songti SC","SimSun",Georgia,serif;
+    font-size:31px;font-weight:600;margin:0 0 8px;letter-spacing:.02em;
+  }
+  .meta{font-size:13.5px;color:var(--ink2);letter-spacing:.02em}
+
+  .bar{height:3px;background:var(--line);border-radius:2px;overflow:hidden;margin:22px 0 10px}
+  .bar-fill{height:100%;width:0;background:var(--accent);transition:width .35s ease}
+  .stat{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink3);letter-spacing:.04em;margin-bottom:18px}
+
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:30px 30px 26px;box-shadow:var(--shadow);
+  }
+  .qno{font-size:12px;letter-spacing:.16em;color:var(--ink3);margin-bottom:12px}
+  .qtext{font-size:18.5px;line-height:1.7;font-weight:500;margin-bottom:22px;letter-spacing:.01em}
+
+  .opts{display:flex;flex-direction:column;gap:10px;margin-bottom:6px}
+  .opt{
+    display:flex;gap:14px;align-items:flex-start;
+    background:#fff;border:1px solid var(--line);border-radius:10px;
+    padding:13px 16px;cursor:pointer;text-align:left;width:100%;
+    font-size:15.5px;line-height:1.65;color:var(--ink);
+    font-family:inherit;transition:border-color .15s,background .15s,transform .08s;
+  }
+  .opt:hover:not(.locked){border-color:#c9bca8;background:#fdfbf7}
+  .opt:active:not(.locked){transform:scale(.995)}
+  .opt .k{
+    flex:0 0 24px;height:24px;border-radius:50%;border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-size:12.5px;color:var(--ink2);margin-top:2px;background:#fff;
+  }
+  .opt.ok{border-color:#a8d2bd;background:var(--ok-bg)}
+  .opt.ok .k{border-color:#7cb89b;background:#7cb89b;color:#fff}
+  .opt.bad{border-color:#e0b3ad;background:var(--bad-bg)}
+  .opt.bad .k{border-color:#c9867e;background:#c9867e;color:#fff}
+  .opt.faded{opacity:.5}
+  .opt.locked{cursor:default}
+
+  .exp{
+    margin-top:18px;padding:16px 18px;border-left:2px solid var(--accent);
+    background:#faf7f1;border-radius:0 8px 8px 0;
+    font-size:14.5px;line-height:1.8;color:#4a4238;
+    animation:fade .28s ease;
+  }
+  .exp .tag{
+    display:inline-block;font-size:11px;letter-spacing:.1em;color:var(--accent);
+    border:1px solid #ddd0bd;border-radius:3px;padding:1px 6px;margin-right:8px;
+    vertical-align:1px;
+  }
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+  .foot{display:flex;justify-content:flex-end;margin-top:24px}
+  .next{
+    font-family:inherit;font-size:15px;letter-spacing:.04em;
+    background:var(--accent);color:#fff;border:none;border-radius:8px;
+    padding:11px 26px;cursor:pointer;transition:opacity .15s,background .15s;
+  }
+  .next:disabled{background:#d8cfc1;cursor:not-allowed}
+  .next:hover:not(:disabled){background:#654a2f}
+  .hint{font-size:12px;color:var(--ink3);margin-right:auto;align-self:center}
+
+  /* 结果页 */
+  .result{text-align:center;padding:14px 0 6px}
+  .big{font-family:"Songti SC","SimSun",serif;font-size:72px;line-height:1;color:var(--accent);font-weight:600}
+  .big span{font-size:22px;color:var(--ink3);font-weight:400;margin-left:4px}
+  .verdict{font-size:17px;margin:16px 0 6px;font-weight:500}
+  .vdesc{font-size:14.5px;color:var(--ink2);max-width:520px;margin:0 auto 26px}
+  .wrongs{text-align:left;margin-top:8px}
+  .wrongs h3{font-size:13px;letter-spacing:.12em;color:var(--ink3);font-weight:500;margin:26px 0 12px}
+  .w-item{
+    border-top:1px solid var(--line);padding:14px 0;
+    font-size:14.5px;line-height:1.75;
+  }
+  .w-q{color:var(--ink);margin-bottom:6px}
+  .w-a{color:var(--bad);font-size:13.5px}
+  .w-ok{color:var(--ok);font-size:13.5px}
+  .w-e{color:var(--ink2);font-size:13px;margin-top:5px}
+  .again{
+    font-family:inherit;font-size:15px;margin-top:28px;
+    background:transparent;color:var(--accent);border:1px solid #cdbfa9;
+    border-radius:8px;padding:11px 28px;cursor:pointer;
+  }
+  .again:hover{background:var(--accent-soft)}
+
+  @media (max-width:600px){
+    .wrap{padding:28px 16px 60px}
+    h1{font-size:25px}
+    .card{padding:22px 18px 20px;border-radius:12px}
+    .qtext{font-size:17px}
+    .opt{font-size:14.5px;padding:12px 13px}
+    .big{font-size:58px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">温热论 · 陪读自测</div>
+    <h1>前五章 · 四十题</h1>
+    <div class="meta">卫气营血 · 逆传 · 战汗 · 三焦 · 里结阳明</div>
+  </header>
+
+  <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+  <div class="stat"><span id="counter">第 1 / 40 题</span><span id="score">已答 0 · 正确 0</span></div>
+
+  <main id="card"></main>
+
+  <div class="foot">
+    <span class="hint" id="hint">按 1–4 选择，回车下一题</span>
+    <button class="next" id="next" disabled>下一题</button>
+  </div>
+</div>
+
+<script>
+const QS = [
+{q:"“逆传心包”的机理依据，是原文中的哪一句？",
+ o:["温邪上受，首先犯肺","心包者，心之宫城，代心受邪","温邪则化热最速","肺主气属卫；心主血属营"],
+ a:3,
+ e:"<b>这是一道“路径 vs 机理”的辨题。</b>“首先犯肺”讲的是入口，不是为什么会跳到心包；“化热最速”讲的是速度，解释的是治法为何异于伤寒；“宫城”之说为后世语，不在本篇。<br>答案靠的是那十二个字把四层钉在两个实体上：卫＝肺之气，营＝心之血。心包代心受邪，故入心包即入营分——<b>逆传的本质是从“肺之卫”跳到“心之营”。</b>"},
+
+{q:"第一章“两阳相劫”中的“两阳”，指的是哪两者？",
+ o:["温与暑","热与燥","湿与热","风与热"],
+ a:3,
+ e:"<b>关键在于分清“因”与“果”。</b>原文：“风挟温热而燥生，清窍必干……两阳相劫也。”风为阳邪，热为阳邪，两个阳一起劫夺津液，<b>燥是结果，不是参与者</b>。“湿与热”是下一句“浊邪害清”的组合；“温与暑”同类，非对举。"},
+
+{q:"“浊邪害清”的病机是：",
+ o:["湿与温合，蒸郁而蒙蔽于上","风挟温热而燥生，清窍必干","湿热内抟，结于阳明胃肠","痰热互结，痞于心下"],
+ a:0,
+ e:"<b>与“两阳相劫”正好构成一对。</b>两阳相劫是风加热，结果清窍<b>干</b>；浊邪害清是湿加热，结果清窍<b>塞</b>。一个干、一个塞，治法相反——见干往津伤想，见塞往湿浊想。<br>B 是两阳相劫；C 是第五章的里结；D 是陷胸汤证。"},
+
+{q:"叶天士说温病“其病有类伤寒”，他给出的验证之法是：",
+ o:["伤寒多有变症，温热虽久总在一经","察其脉之浮数","验其口渴与否","视其舌苔之黄白"],
+ a:0,
+ e:"<b>叶氏这里不看症状，看传变形态。</b>伤寒几天就变证，温病拖得久还在肺卫这一层——用“变不变”来分，不用“渴不渴”来分。<br>C、B、D 都是后世常说的鉴别点，临床上也管用，但不是本章原文给出的方法。<br>另需注意：此法<b>只适用于初起鉴别</b>，不能推成“温病不传变”——他自己上一句刚说“温邪化热最速”。"},
+
+{q:"“挟湿加芦根、滑石之流”，体现的治法是：",
+ o:["透风于热外","清热于气分","渗湿于热下","育阴于下焦"],
+ a:2,
+ e:"<b>这是原文的严格对仗。</b>“挟风加薄荷、牛蒡”对“透风于热外”；“挟湿加芦根、滑石”对“渗湿于热下”。<br>薄荷、牛蒡性升浮，把风往外透；芦根、滑石性下行，把湿往下渗。<b>一外一下，各给一条出路</b>——这就是“不与热相抟，势必孤矣”的具体手段。"},
+
+{q:"“温邪则化热最速”这句，在第一章中承担的作用是：",
+ o:["说明温邪比伤寒更为深重","解释温病治法为何与伤寒大异","说明逆传心包不可避免","说明温病初起必定没有恶寒"],
+ a:1,
+ e:"<b>看它的位置：紧接“若论治法，则与伤寒大异”，后面用“盖”字领起。</b>“盖”就是“因为”——因为伤寒留恋在表、你有时间慢慢辛温发汗；温邪化热最速，等你按部就班发汗，热已经进里了。<br>所以“异”的不是辨证框架，是<b>来不及</b>。这也正是“温病初起也会恶风寒，却不能用桂枝汤”的原文依据：不是恶寒不能用，是来不及。"},
+
+{q:"关于顺传与逆传的区别，最准确的表述是：",
+ o:["顺传循六经；逆传循三焦","顺传由表入里；逆传由里出表","顺传病势轻；逆传病势重","顺传由卫而气而营而血；逆传由卫直入营分"],
+ a:3,
+ e:"<b>问的是“路径”，不是“轻重”。</b>C 说的病势轻重是对的，但没有回答区别在哪，属于“正确的废话”。<br>叶氏原文只写了“逆传心包”，顺传是反推出来的——卫→气一步步走。逆传的分量全在一个“跳”字：<b>气分被整个绕过去了</b>。这也是它凶险的原因：不是一个脏腑传到相邻脏腑，而是换了一套系统。<br>B 方向说反了；A 把两套辨证体系混在一起。"},
+
+{q:"由“肺合皮毛而主气，故云在表”可以直接推出：",
+ o:["当用辛温发汗","初用辛凉轻剂","当用苦寒直折","当用甘寒养阴"],
+ a:1,
+ e:"<b>这是一条三步推理链：</b>未传心包 → 邪尚在肺 → 肺合皮毛主气 → 所以算“在表” → 在表就用辛凉。<br>但要注意“<b>轻剂</b>”二字，不是重剂。理由在肺位最高，“治上焦如羽，非轻不举”。A 是伤寒的路子，这里恰恰要避开；C、D 都不合“在表”这个前提。"},
+
+{q:"“若病仍不解，是渐欲入营也”——“仍不解”在这里的意思是：",
+ o:["按对路之法施治而病不退，说明层次已变","正气已虚，应当扶正托邪","药力不足，应当加重剂量","邪已外出，可以停药观察"],
+ a:0,
+ e:"<b>叶天士把“治疗反应”本身当成了诊断依据。</b>前面用的辛凉散风、甘淡驱湿都是对路的，病却不解——不是药不对，是<b>层次不对</b>。<br>这一条极实用：<b>治之不效，先想是不是层次判错了，别急着换药加量。</b>C 正是临床最常见的错误反应。"},
+
+{q:"“即撤去气药”的主要理由是：",
+ o:["气分药力薄，清不了营分之热","病已入营，气药打不到，且辛散反耗津液","气分药会引邪深入血分","气药与凉血药性相反，同用生变"],
+ a:1,
+ e:"<b>两个理由缺一不可：打不到，还有害。</b>气药轻清走上，病已入营，再往上走就是打空；而营分已受热、血液受劫，辛散之品还要再耗津液。<br>C 听上去很像，但原文没有“引邪入血”之意；D 更是想当然——叶氏后文正说“参入凉血清热方中”，两类药本来就同用。<br>记住：第一章是“加”，本章是“撤”，<b>一加一撤，分寸全在里面</b>。"},
+
+{q:"“斑出热不解者”，叶天士认为病机是：",
+ o:["邪未尽透，当再透斑","热陷心包，当凉开","胃津亡，当主以甘寒","肾水素亏，当加咸寒"],
+ a:2,
+ e:"<b>这题考的是“斑不出”与“斑出不解”的分界。</b>斑不出，是邪无出路，该透；斑已出而热不退，是<b>液无来源</b>，托不出去，该养。<br>所以原文说“胃津亡也，主以甘寒”，重则玉女煎，轻则梨皮、蔗浆。<b>一个攻，一个养，方向相反。</b><br>D 是本章后半段另一种情形——病未及下焦而先安未受邪之地，与此症不同。"},
+
+{q:"判断患者“肾水素亏”，叶天士明确提出的依据是：",
+ o:["问其口渴与否","必验之于舌","按其胸脘拒否","诊其尺脉虚实"],
+ a:1,
+ e:"<b>D 是本题最强的干扰项</b>——肾虚诊尺，理论上完全说得通，后世医家也这么干。但原文写得很死：“此<b>必验之于舌</b>”。<br>整部《温热论》里，验舌是判断阴液存亡的主要手段，第八章专讲此事。这里的“必”字，是叶氏在告诉你他信哪一把尺子。<br>至于“按其胸脘”，那是王孟英在第五章按语里补的另一把尺子，不是此处。"},
+
+{q:"邪从风热陷入营与从湿热陷入营，用药的差别是：",
+ o:["风热用花露；湿热用竹叶","风热用犀角、竹叶；湿热用犀角、花露","风热不用犀角；湿热用犀角","风热加金汁；湿热加人中黄"],
+ a:1,
+ e:"<b>注意两边都有犀角。</b>“核心不变，佐使随来路变”——入了营都要凉血清热，但邪的“出身”还在：风热进来的佐竹叶（清透），湿热进来的佐花露（芳香化浊）。<br>A 把两者对调了；C 错在以为有一边不用犀角；D 张冠李戴——金汁是“烦躁、大便不通”时加的，人中黄是给老年及平素有寒者替代金汁的。"},
+
+{q:"“急速透斑为要”这句话，反映出营分治疗的目标是：",
+ o:["以透为要，斑透则邪有出路","以清为主，透为辅","斑一出即愈，不必再药","当用大剂苦寒直折"],
+ a:0,
+ e:"<b>B 是最像的错项</b>——营分要“清”没错，但原文的落脚点是“透”。营分受热、血液受劫，此时所有动作（撤气药、凉血清热、加金汁）都是为“透”服务：<b>斑透出来，邪才有路可走。</b><br>C 忽略了后半段“斑出热不解者，胃津亡也”；D 与“轻剂”“不可寒凉遏之”一路的分寸全反。"},
+
+{q:"“法宜益胃”的实质是：",
+ o:["疏瀹其枢机，灌溉汤水","温补中阳，如理中汤之类","补益胃气，如四君子汤之类","攻下胃实，如承气汤之类"],
+ a:0,
+ e:"<b>这题的关键是先拆掉一个前提：益胃 ≠ 补。</b>王孟英驳章虚谷驳得很直接：“胃为阳土，宜降宜通，所谓<b>腑以通为补</b>也……益胃者，在疏瀹其枢机，灌溉汤水。”<br>说白了是两件事：<b>把胃气疏通开，给身体添点水。</b>落在操作上是米汤、白汤、甘凉濡润，不是黄芪、党参。<br>C 正是章虚谷的读法，被王孟英点名批评过。"},
+
+{q:"战汗之所以能发得出来，靠的是：",
+ o:["肾精的支撑","心血的濡养","胃津的充盈","卫阳的鼓动"],
+ a:2,
+ e:"<b>“益胃”与“汗源”是同一件事的两面。</b>汗的材料是津液，津液的源头在胃。所以链条是：益胃 → 津液充 → 令邪与汗并 → 热达腠开 → 邪从汗出。<br>与第二章“斑出热不解者，胃津亡也”合看，才是完整的汗源理论：<b>没有津液，战汗根本发不起来。</b><br>D 的“卫阳鼓动”听着像发汗的动力，但叶氏此处不谈阳，只谈津。"},
+
+{q:"战汗后肤冷，与气脱之肤冷，判据是：",
+ o:["脉象与神态","汗量多少","体温高低","病程长短"],
+ a:0,
+ e:"<b>两条路症状几乎一样：都汗出、都肤冷。</b>分它的是两样东西——脉与神态。<br>战汗而解：脉虚软<b>和缓</b>，倦卧不语（安静）；气脱：脉<b>急疾</b>，躁扰不卧（不安）。<br>“和缓”二字最要紧：虚是虚了，但脉还有条理、还有胃气，说明只是累趴了，不是散了。<br>这里脉不是参考项，<b>是判决书</b>。"},
+
+{q:"“邪盛正虚，不能一战而解”，正确的处理是：",
+ o:["立即大补以助正气","改用大剂清热以折其势","改用攻下以去其结","停一二日再战，不可强攻"],
+ a:3,
+ e:"<b>“等”也是一种治法。</b>原文：“停一二日再战汗而愈者，不可不知。”<br>邪盛正虚，一次推不干净，等正气缓过来再打一场。战汗未解不等于失败，更不等于要改弦更张去猛攻。<br>A 尤其要小心：此时余邪未净，大补即助邪——这正是后文“战解后不可骤进补药”的同一条理。"},
+
+{q:"战汗解后，叶天士反对“骤进补药”，理由是：",
+ o:["恐助湿生痰，转为湿温","恐虚不受补，反生胀满","恐壅遏气机，汗源难复","恐余邪未净，复炽"],
+ a:3,
+ e:"<b>原文只有一句：“恐余邪未净，复炽也。”</b><br>B 是杂证里常见的顾虑，C、A 也都合病理，但都不是叶氏此处的理由。这类题要按原文答，不能按“哪个听着更合理”答。<br>刚打赢一仗、一身虚汗，最想做的就是大补——叶氏说不行。<b>等，比补安全。</b>这也与杨氏注“若邪已入内而助胃，是助邪反害矣”是同一条线。"},
+
+{q:"“旁人切勿惊惶，频频呼唤”，叶氏所虑的是：",
+ o:["惊动邪气，致其内陷","致其汗出更甚，津液更伤","扰其元气，妨碍阳气来复","致其神志更乱，转为昏谵"],
+ a:2,
+ e:"<b>C 是原文：“扰其元气。”</b><br>D 很有迷惑性——从现代眼光看，频繁呼唤确实会加重躁扰；但叶氏此处讲的是<b>正气</b>的恢复，不是神志的安稳。“此时宜安舒静卧，以养阳气来复”是正面主张，反面就是“别扰”。<br>这一条今天依然成立：<b>有时候最好的处理是不打扰。</b>"},
+
+{q:"依杨氏注，“益胃”可以用与不可以用的界线是：",
+ o:["虚人皆可益胃托邪","邪在表、气分浅处可用；邪已入内则助邪","有汗者可用，无汗者不可","上焦可用，下焦不可"],
+ a:1,
+ e:"<b>三条界线，一条比一条硬：</b>邪在表、气分浅处，可助胃托邪；邪已入内，助胃即助邪，“反害”；暑疫初起即在膜原、正挡胃口，<b>连虚人也不补</b>，必须先开达，“若误补，其害匪轻”。<br>A 恰恰被第三条否掉了——虚不是通行证。C、D 都是以偏概全的伪规律。<br>再加时机一条：<b>先开门，后加水</b>（“直待将战之时，始令多饮米汤”）。"},
+
+{q:"“犹之伤寒中少阳病也”，正确的理解是：",
+ o:["只是打比方，二者邪的分布形态不同","邪留三焦即少阳证，可用小柴胡汤","病机完全相同，只是病名不同","三焦证由少阳证传变而来"],
+ a:0,
+ e:"<b>“犹之”不是“就是”。</b>叶氏紧接着就用“彼则……此则……”把两者划开了，这是全章最见手段的一处对举。<br>B 是最危险的误读——照着这句话开小柴胡汤，就把“分消”改成了“和解”，方向全错。<br>C 与原文自相矛盾；D 于文无据。"},
+
+{q:"三焦证用“分消”而不用“和解”，根据在于：",
+ o:["三焦属腑，少阳属经","三焦证不见寒热往来","邪散在上下三段，没有中间点可调","三焦病位较少阳为深"],
+ a:2,
+ e:"<b>B 是本题最强的干扰项</b>——它说的是事实，三焦证确实不以寒热往来为主症；但“没有某个症状”解释不了“为什么换一种治法”。<br>真正的根据是<b>邪的分布形态</b>：少阳是表里之间一个夹层，是<b>一条线</b>，有中间点可调，故和解；三焦是上下三段，是<b>一片面</b>，没有中间点，只能分头开出口，故分消。<br>一句话：<b>能调关系的叫和解，只能分头疏散的叫分消。</b>"},
+
+{q:"叶天士举“杏、朴、苓”，三味药各走哪一焦？",
+ o:["杏仁润肺、厚朴燥湿、茯苓补脾","杏仁宣上、厚朴畅中、茯苓渗下","杏仁透表、厚朴攻下、茯苓利水","杏仁清热、厚朴消痞、茯苓安神"],
+ a:1,
+ e:"<b>A 每一味都“像”对的，但都不是叶氏的意思。</b>杏仁不是润肺，是<b>宣</b>肺气；厚朴不是泛泛燥湿，是<b>畅</b>中焦；茯苓不是补脾，是<b>渗</b>。<br>三个动词对应三条路——上、中、下各开一个口，让邪有处可去。这也是三仁汤“宣上、畅中、渗下”的雏形。<br>C、D 则把药性整个说偏了。"},
+
+{q:"“转疟之机括”的意思是：",
+ o:["邪仍可借寒热定时发作逐步外出","病将转为疟疾，当用截疟之品","是邪陷营分的先兆","是正气来复、病将自愈的表现"],
+ a:0,
+ e:"<b>“机括”就是扳机，是“还留着一个出口”，不是“要变成另一个病”。</b><br>原文两句连读最清楚：“犹有战汗之门户，转疟之机括也”——两扇门都还开着，一个靠汗，一个靠寒热定时发作把邪一点点带出去。<br>B 把“可转”读成了“必转”；C、D 都与“因其仍在气分”这个前提相反。"},
+
+{q:"沈尧封“虽温邪不可用寒凉遏之”，其理由是：",
+ o:["寒凉伤脾胃，湿更难化","寒凉助湿，湿热更胶结","寒凉伤阳，易致厥脱","寒凉遏住气机，邪反内陷"],
+ a:3,
+ e:"<b>关键在“遏”这个字。</b>三焦是表里之气升降出入的通道，也是水道——<b>它不是一块肉，是一条路</b>。路堵了，治法当然是通；一浇冷水，就彻底冻上了。<br>A、C、B 都是寒凉的常见副作用，也都成立，但此处的落点是<b>气机被遏</b>，不是脏腑被伤。<br>这与第一章“辛凉轻剂”、第二章“即撤气药”是一路的：<b>整部书都在讲分寸。</b>"},
+
+{q:"“因其仍在气分，犹有战汗之门户”——这句话说明：",
+ o:["气分证必定能战汗而解","当用和解之法以转其为疟","当用益胃之法以催其作汗","邪未入营，仍存在从外解的可能"],
+ a:3,
+ e:"<b>A 的毛病在“必定”。</b>原文是“犹有”，是“门还开着”，不是“一定能走出去”。<br>这句话的分量在于给出<b>预后判断的依据</b>：邪还在气分，就还有外解的机会；一旦入营，门就关了，只能透热转气。<br>C、B 都把“可能性”直接当成了“处方”——门开着不等于现在就要推门。"},
+
+{q:"“不可以气血之分，谓其不可下也”，反对的是：",
+ o:["反对以卫气营血分层为由否定下法","反对使用下法","反对辨卫气营血","主张一切温病皆当下"],
+ a:0,
+ e:"<b>这题考的是“反对什么”与“主张什么”的分别。</b>叶氏不是说温病都该下（D 过头了），也不是否定分层（C 更是反了），而是说：<b>分层是纵轴，里结是横轴，两轴交叉才能定位。</b><br>只有纵轴的人，见到腑实不敢下；只有横轴的人，见到发热就攻下。都不对。<br>这句话是叶天士给自己刚建立的体系打的补丁——<b>分层是为了定位，不是为了禁用某法。</b>"},
+
+{q:"伤寒与温病同为阳明里结，下法强度却不同，根据是：",
+ o:["体质强弱不同","病程长短不同","大便质地不同","热势轻重不同"],
+ a:2,
+ e:"<b>原文的对照极清楚：</b>伤寒是“热邪在里，<b>劫烁津液</b>”，故大便干结成硬块，下之宜猛；温病是“<b>湿热内抟</b>”，黏滞不干，故下之宜轻。<br>A、B、D 都是临床上会考虑的因素，但此处叶氏只给了一个判据——<b>便质</b>。因为便质直接反映邪的形态：燥屎 vs 湿浊。<br>底本作“湿热内抟”，《温热经纬》作“湿邪内搏”，一字之差，意思一致。"},
+
+{q:"湿温“轻法频下”的机理是：",
+ o:["峻下则气徒伤而湿仍胶结不去","病人体虚，不受峻药","防止下之过而伤阴","湿热易反复，需缓图"],
+ a:0,
+ e:"<b>旧注说得极准：“若用承气猛下，其行速而气徒伤，湿仍胶结不去。”</b><br>这句话有个很生动的画面：猛药走得快，湿还没化开就被冲过去了，人却先伤了一场气。所以要“轻”且“频”——小剂、多次，<b>像化糖块一样慢慢化，不是一锤子砸。</b><br>B、C、D 都是“缓下”的一般理由，但此处针对的是湿的特性，不是人的虚实。"},
+
+{q:"湿温病见大便溏，正确的理解是：",
+ o:["邪已尽，应当停药","湿已化尽，当转用补益","脾虚下陷，当用升提","邪未尽，仍当继续缓下"],
+ a:3,
+ e:"<b>这是全章最容易记反的一句，也是本题的核心。</b>同样一个“溏”，在两套体系里意义相反：<br>伤寒——燥屎已去，余邪从溏便排出，见溏即止；<br>湿温——湿性黏滞，粪不能成形，<b>溏本身就是病还在的证据</b>，须继续轻下。<br>A 正是“把伤寒的判据套到湿温上”的典型错误。"},
+
+{q:"“必大便硬，乃为无湿”这句话说明：",
+ o:["便硬是燥屎已成，当改用峻下","便硬是阴液受伤，当转用滋阴","便硬是湿已化尽的标志，可以停攻","便硬是热结更深，当加重清热"],
+ a:2,
+ e:"<b>这七个字是湿温疗效的终点线。</b>湿未化，大便永远软、黏、不成形；湿一化，大便自然转硬。<br>所以湿温治疗期间，<b>问大便比问体温更能判断进度</b>；而吃到大便干硬，就该停攻了——再攻就伤阴（B 说的正是停攻之后可能出现的问题，但不是这句话的意思）。<br>与第三讲的三承气对照：三承气辨“痞满燥实”，本章辨“湿化没化”。<b>一个辨结，一个辨湿。</b>"},
+
+{q:"“有地之黄”的确切含义是：",
+ o:["苔色深黄而厚","苔黄而干燥少津","苔见于舌之中部","苔有根，与有形之邪相结"],
+ a:3,
+ e:"<b>“有地”是“有根”，不是“有色”。</b>旧注打得极好：“舌苔如地上初生之草，必有根，无根者为浮垢，刮之即去。”<br>有根＝湿热与有形之物（痰、食、燥屎）结合，是可攻之实；无根＝浮在表面的无形湿热，底下是虚的。<br><b>一句话：苔要看根，不看色。</b>这也解释了为什么同样的黄苔，有人该用陷胸、泻心，有人一用就坏——差别不在黄，在有没有根。"},
+
+{q:"舌苔黄而光滑无根，正确的判断与处理是：",
+ o:["湿热极盛，当急下","无形湿热兼中虚，大忌苦泄","痰热互结，当用小陷胸汤","热已入营，当用凉血清热"],
+ a:1,
+ e:"<b>原文写得很硬：“若光滑者，乃无形湿热，已有中虚之象，大忌前法。”</b>“大忌”两个字，是叶氏少用的重词。<br>为什么？光滑无根说明底下没有实邪可攻，一攻则“表邪反陷，为难治矣”。<br>A、C 都是被“黄”字带跑的典型——<b>见黄就攻，是这一章反复在防的错。</b>"},
+
+{q:"舌苔“中有断纹”，提示：",
+ o:["脾虚湿盛，当健脾化湿","热灼津伤更深，已近燥屎，可下","阴虚水涸，当滋阴填精","胃气衰败，预后不良"],
+ a:1,
+ e:"<b>C 是最像的错项</b>——断纹确实是津伤，滋阴听起来天经地义。但要看清它在哪个序列里：<br>原文把“中有断纹”与黄甚、沉香色、灰黄色、老黄色并列，<b>五种都是“皆当下之”的可下舌</b>。它描述的是苔失濡润、热灼津伤到苔都裂了，<b>邪已结得更实</b>，不是阴虚当补。<br>这是一个“同样一个征象，在不同序列里意义不同”的好例子。"},
+
+{q:"脐以上大腹满胀痛，表证已无，舌苔老黄，当用：",
+ o:["开泄，如杏、蔻、橘、桔","苦泄，如小陷胸汤、泻心汤","下，如小承气汤之类","分消，如杏、朴、苓"],
+ a:2,
+ e:"<b>这题考的是第五章的腹部两段论。</b>脘（心下、胃）痞胀疼痛 → 苦泄；脐以上大腹（肠）满胀痛 → 下。<br>位置定法：病位高，离肠还远，药力只需走到胃；等到脐以上大腹满痛、表证基本没有，才是肠里结住了。<br>A 用于苔白不燥、无形之滞；D 是第四章邪留三焦的治法，病位根本不同。"},
+
+{q:"大腹满胀痛，但舌未见黄甚、沉香色、老黄、断纹等象，可能是：",
+ o:["燥屎内结，仍当攻下","热入血分，当凉血散血","湿聚太阴、寒湿错杂或气壅，当以别法治","邪留三焦，当分消走泄"],
+ a:2,
+ e:"<b>这是全章的第二道刹车。</b>同样是“大腹满胀痛”，有三种不该下的情况：湿聚太阴为满（满而不实，按之不坚）、寒湿错杂为痛（无热可下）、气壅为胀（气机滞，非有形之结）。<br>叶氏讲下法，<b>一半篇幅在讲什么时候不下</b>。这和第二章“即撤气药”、第四章“不可寒凉遏之”是同一种笔法：先划禁区，再谈用药。"},
+
+{q:"第一章的“辛凉轻剂”与第五章的“下之宜轻”，两个“轻”是否同义？",
+ o:["同义，都指剂量宜小","不同：一为药物质地轻清，一为下法峻缓","不同：一为病轻，一为药轻","同义，都指避免伤正"],
+ a:1,
+ e:"<b>同一个字，两个坐标。</b><br>第一章的“轻”对的是“重浊”——肺位最高，药要轻清上扬、气味俱薄，别用重浊之品把它压下去。这是<b>质地与走向</b>。<br>第五章的“轻”对的是“猛”——湿热黏滞，不可一剂承气猛攻，要小剂频下。这是<b>峻缓与频次</b>。<br>A、D 都把两个维度压成了一个，看似稳妥，实则抹掉了叶氏最讲究的分寸。"},
+
+{q:"患者舌绛神昏，欲用安宫、至宝；但按其胸下，皱眉拒按，苔白不渴。当如何？",
+ o:["纯用安宫、至宝凉开","先下其结，再议开窍","凉开之中参以辛开之品，不可纯用凉润","先补其虚，再议清热"],
+ a:2,
+ e:"<b>这是王孟英按语里最实用的一条：“虽舌绛神昏，但胸下拒按，即不可率投凉润，必参以辛开之品，始有效也。”</b><br>道理：上面压着一层痰湿，一味凉润会把湿冻住，神昏反而更重。所以要一边凉开、一边辛开，把闭住的气机打开。<br>A 是照着教科书治“营分证”的常规反应，恰恰是这条按语要纠正的。<b>舌象可以骗人，手底下的抵抗不会。</b>"},
+
+{q:"“苦泄”与“开泄”，最本质的差别是：",
+ o:["苦泄清上焦，开泄泄下焦","两者方向相同，仅力量强弱有别","苦泄走血分，开泄走气分","苦泄向下泄，开泄宣通气滞以达归于肺"],
+ a:3,
+ e:"<b>一字之差，方向相反。</b>苦泄（陷胸、泻心）味苦性寒，往下泄，用于苔黄浊、有地之黄、有形之结；开泄（杏、蔻、橘、桔）轻苦微辛，向外宣，用于苔白不燥、黄白相兼、灰白不渴的无形之滞。<br>最妙是“<b>以达归于肺</b>”五个字：病在中焦胃脘，为什么要往肺上引？因为肺主一身之气，<b>气化则湿化</b>。气一转，湿自己就散了。<br>这也是三仁汤“宣上”那一手的祖宗。"}
+
+];
+
+const $ = id => document.getElementById(id);
+let idx = 0, picked = [], answered = false;
+
+function render(){
+  const q = QS[idx];
+  $("counter").textContent = `第 ${idx+1} / ${QS.length} 题`;
+  const done = picked.filter(x => x !== null && x !== undefined).length;
+  const right = picked.filter((x,i) => x === QS[i].a).length;
+  $("score").textContent = `已答 ${done} · 正确 ${right}`;
+  $("barFill").style.width = (idx / QS.length * 100) + "%";
+
+  const card = $("card");
+  card.innerHTML = `
+    <div class="card">
+      <div class="qno">Q${String(idx+1).padStart(2,"0")}</div>
+      <div class="qtext">${q.q}</div>
+      <div class="opts" id="opts"></div>
+      <div id="expBox"></div>
+    </div>`;
+
+  const box = $("opts");
+  q.o.forEach((text, i) => {
+    const b = document.createElement("button");
+    b.className = "opt";
+    b.innerHTML = `<span class="k">${"ABCD"[i]}</span><span>${text}</span>`;
+    b.onclick = () => choose(i, b);
+    box.appendChild(b);
+  });
+
+  answered = false;
+  $("next").disabled = true;
+  $("next").textContent = idx === QS.length - 1 ? "查看结果" : "下一题";
+  $("hint").textContent = "按 1–4 选择，回车下一题";
+}
+
+function choose(i, el){
+  if (answered) return;
+  answered = true;
+  picked[idx] = i;
+  const q = QS[idx];
+  const btns = [...document.querySelectorAll(".opt")];
+
+  btns.forEach((b, j) => {
+    b.classList.add("locked");
+    if (j === q.a) b.classList.add("ok");
+    else if (j === i) b.classList.add("bad");
+    else b.classList.add("faded");
+  });
+
+  const correct = i === q.a;
+  $("expBox").innerHTML = `
+    <div class="exp">
+      <span class="tag">${correct ? "正确" : "正确答案 " + "ABCD"[q.a]}</span>
+      ${q.e}
+    </div>`;
+
+  const done = picked.filter(x => x !== null && x !== undefined).length;
+  const right = picked.filter((x,k) => x === QS[k].a).length;
+  $("score").textContent = `已答 ${done} · 正确 ${right}`;
+  $("next").disabled = false;
+  $("hint").textContent = correct ? "答对了" : "看解析，别只记答案";
+}
+
+function next(){
+  if (!answered) return;
+  if (idx === QS.length - 1) return showResult();
+  idx++;
+  render();
+}
+
+function showResult(){
+  const right = picked.filter((x,i) => x === QS[i].a).length;
+  const wrongIdx = picked.map((x,i) => x !== QS[i].a ? i : -1).filter(i => i >= 0);
+  let verdict, desc;
+  if (right >= 38){ verdict = "可以给同学讲了"; desc = "前五章的骨架和分寸都拿住了。接下来读第六、七章几乎没有障碍。"; }
+  else if (right >= 32){ verdict = "骨架牢，细节待补"; desc = "主干清楚，错的多半集中在“判据”和“界线”上——这类地方正是温病学最较真的地方。"; }
+  else if (right >= 24){ verdict = "主干有了，岔路多"; desc = "建议回读第三章（战汗与气脱）与第五章（下法与便溏），这两章的错误率通常最高。"; }
+  else { verdict = "先回炉，别急着往下"; desc = "把第一至五章按顺序重读一遍，再回来做。答案可以查，理解不能跳。"; }
+
+  $("barFill").style.width = "100%";
+  $("counter").textContent = "已完成 40 / 40";
+  $("score").textContent = `正确 ${right} / 40`;
+  $("hint").textContent = "";
+  $("next").style.display = "none";
+
+  let html = `
+    <div class="card">
+      <div class="result">
+        <div class="big">${right}<span>/ 40</span></div>
+        <div class="verdict">${verdict}</div>
+        <div class="vdesc">${desc}</div>
+      </div>`;
+
+  if (wrongIdx.length){
+    html += `<div class="wrongs"><h3>错题回顾（${wrongIdx.length} 题）</h3>`;
+    wrongIdx.forEach(i => {
+      const q = QS[i], my = picked[i];
+      html += `<div class="w-item">
+        <div class="w-q">Q${i+1}. ${q.q}</div>
+        <div class="w-a">你选了 ${"ABCD"[my]}：${q.o[my]}</div>
+        <div class="w-ok">正解 ${"ABCD"[q.a]}：${q.o[q.a]}</div>
+        <div class="w-e">${q.e}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  } else {
+    html += `<div class="wrongs"><h3>全对</h3><div class="w-item">四十题无错。建议隔两三天重做一次，验的是记忆是否沉淀，不是手气。</div></div>`;
+  }
+
+  html += `<div style="text-align:center"><button class="again" onclick="restart()">再测一次</button></div></div>`;
+  $("card").innerHTML = html;
+}
+
+function restart(){
+  idx = 0; picked = []; answered = false;
+  $("next").style.display = "";
+  render();
+}
+
+$("next").onclick = next;
+
+document.addEventListener("keydown", e => {
+  if (["1","2","3","4"].includes(e.key)){
+    const btns = document.querySelectorAll(".opt");
+    const i = Number(e.key) - 1;
+    if (btns[i] && !answered) btns[i].click();
+  } else if (e.key === "Enter" || e.key === " "){
+    if (!$("next").disabled){ e.preventDefault(); next(); }
+  }
+});
+
+render();
+</script>
+</body>
+</html>
